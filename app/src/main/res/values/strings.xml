@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">AppDemo</string>
+    <string name="hint_username">Tên tài khoản</string>
+    <string name="hint_password">Mật khẩu</string>
+    <string name="register">Đăng ký</string>
+    <string name="login">Đăng nhập</string>
+    <string name="saved_username">Lưu mật khẩu?</string>
+    <string name="lo_go">Logo</string>
+    <string name="forgot_passwrod">
+        <a href="http://www.google.com">Quên mật khẩu?</a>
+    </string>
+    <string name="account_regiser">Không có tài khoản,  </string>
+    <string name="link_register">
+        <a href="http://www.google.com">  Đăng Ký.</a>
+    </string>
+    <string name="hint_confirm">Xác nhận</string>
+    <string name="hint_email">Email</string>
+    <string name="account_login">Đã có tài khoản,  </string>
+    <string name="link_login">
+        <a href="http://www.google.com">  Đăng nhập.</a>
+    </string>
+    <string name="register_success">Tạo tài khoản thành công!</string>
+    <string name="title_search">Tìm kiếm</string>
+    <string name="title_option">Tùy chọn</string>
+    <string name="sub_item1">Mục phụ 1</string>
+    <string name="sub_item2">Mục phụ 2</string>
+    <string name="sub_item3">Mục phụ 3</string>
+    <string name="title_setting">Cài đặt</string>
+    <string name="tv_username">Tên tài khoản</string>
+    <string name="title_notifi">Thông báo</string>
+    <string name="title_profile">Hồ sơ</string>
+    <string name="tv_logout">Đăng xuất</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="is_empty_user">Nhập tài khoản!</string>
+    <string name="is_empty_pass">Nhập mật khẩu!</string>
+    <string name="is_empty_rg_username">Nhập tài khoản!</string>
+    <string name="is_empty_rg_email">Nhập email!</string>
+    <string name="is_empty_rg_passwrod">Nhập mật khẩu!</string>
+    <string name="is_empty_rg_confirm_passwrod">Nhập lại mật khẩu!</string>
+    <string name="enter_a_valid_address">Nhập địa chỉ hợp lệ!</string>
+    <string name="password_incorrect">Mật khẩu không khớp!</string>
+    <string name="text_login_fail">Tài khoản hoặc mật khẩu không chính xác!</string>
+    <string name="register_failed">Đăng ký thất bại Email này đã tồn tại!</string>
+    <string name="log_out">Đăng xuất</string>
+    <string name="btn_reset_passwrod">Đổi mật khẩu</string>
+    <string name="import_email">Nhập Email để Reset lại mật khẩu!</string>
+    <string name="item_info">Thông tin tài khoản</string>
+    <string name="item_logout">Đăng xuất</string>
+    <string name="btn_create_info">Tạo mới thông tin</string>
+</resources>

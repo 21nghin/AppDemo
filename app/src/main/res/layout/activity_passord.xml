@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_drawable">
+    <RelativeLayout
+        android:padding="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/dp_100"
+            android:id="@+id/tv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/lo_go"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_60"
+            android:fontFamily="sans-serif-light"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="@dimen/dp_100"
+            android:layout_below="@id/tv_logo"
+            app:boxBackgroundMode="none"
+            app:boxBackgroundColor="@color/babay"
+            android:fontFamily="sans-serif-light"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            style="@style/LoginTextInputLayoutStyle"
+            android:id="@+id/text_forgor_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:textColorHint="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textEmailAddress"
+                android:backgroundTint="@color/white"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/edt_forgot_email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/hint_email"
+                android:padding="@dimen/dp_20"
+                android:textColor="@color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_75"
+        android:layout_below="@id/text_forgor_email"
+        android:background="@drawable/btn_custom"
+        android:text="@string/btn_reset_passwrod"
+        android:textSize="@dimen/sp_20"
+        android:textAllCaps="false"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="@dimen/dp_50"
+        android:padding="@dimen/dp_15"
+        android:textColor="@color/white"
+        android:id="@+id/btn_reset_pass"/>
+</LinearLayout>

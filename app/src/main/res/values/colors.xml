@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorMenu">#7b2189</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#fff</color>
+    <color name="babay">#37373737</color>
+    <color name="text_login">#373737</color>
+    <color name="black">#000</color>
+    <color name="textMenuColor">#00BCD4</color>
+    <color name="colorXam">#515353</color>
+</resources>
