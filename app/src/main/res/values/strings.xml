@@ -46,9 +46,8 @@
     <string name="log_out">Đăng xuất</string>
     <string name="btn_reset_passwrod">Đổi mật khẩu</string>
     <string name="import_email">Nhập Email để Reset lại mật khẩu!</string>
-    <string name="item_info">Thông tin về CV</string>
+    <string name="item_info">Thông tin tài khoản</string>
     <string name="item_logout">Đăng xuất</string>
-    <string name="btn_create_info">Tạo mới CV</string>
-    <string name="item_info_user">Thông tin tài khoản</string>
-    <string name="text_content">Of course, some code must have been written to govern the behaviors of the widgets and Views in our samples above. The CoordinatorLayout automatically does all this already. However, you might want to define your own reactions and behaviors, rather than use the default and standard behaviors. It is remarkably easy to do. The complexity lies in how unique a behavior you want, and not in implementing a behavior. Our custom behavior is really simple. From the FabFollowsWidget sample above, we want the CircleImageView to grow larger as the user scrolls to the end of the Cards.</string>
+    <string name="btn_create_info">Tạo mới thông tin</string>
+    <string name="password_to_short">nhập mật khẩu tối thiểu  6 ký tự</string>
 </resources>
