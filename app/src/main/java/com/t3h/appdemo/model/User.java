@@ -2,19 +2,40 @@ package com.t3h.appdemo.model;
 
 public class User {
 
-    public String FullName;
-    public int Age;
-    public String Address;
-    public String Email;
-    public String ProgrammingLanguage;
-    public int Experient;
+    private String Name;
+    private String Email;
+    private String Passwrod;
 
-    public User(String fullName, int age, String address, String email, String programmingLanguage, int experient) {
-        FullName = fullName;
-        Age = age;
-        Address = address;
+    public User() {
+    }
+
+    public User(String name, String email, String passwrod) {
+        Name = name;
         Email = email;
-        ProgrammingLanguage = programmingLanguage;
-        Experient = experient;
+        Passwrod = passwrod;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getPasswrod() {
+        return Passwrod;
+    }
+
+    public void setPasswrod(String passwrod) {
+        Passwrod = passwrod;
     }
 }

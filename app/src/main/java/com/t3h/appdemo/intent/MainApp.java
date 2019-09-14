@@ -18,6 +18,7 @@ import android.widget.Switch;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.adapter.AppAdapter;
 import com.t3h.appdemo.fragment.BottomDialogFragment;

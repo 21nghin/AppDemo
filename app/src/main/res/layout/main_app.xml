@@ -17,11 +17,11 @@
             android:id="@+id/id_tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorMenu"
+            android:background="@color/white"
             app:tabIndicatorColor="@color/textMenuColor"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/textMenuColor"
-            app:tabTextColor="@color/white" />
+            app:tabTextColor="@color/colorMenu" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/id_viewpager"
