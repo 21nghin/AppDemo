@@ -181,6 +181,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        String passwrod = textPasswrod.getEditText().getText().toString().trim();
+        if (passwrod.length()<6){
+            textPasswrod.setError(getString(R.string.password_to_short));
+        }
+
         if (charSequence.length() == 0) {
             textUsername.setErrorEnabled(false);
         } else {
