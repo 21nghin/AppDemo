@@ -22,8 +22,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.t3h.appdemo.intent.MainLogin;
 import com.t3h.appdemo.R;
+import com.t3h.appdemo.model.User;
 
 import es.dmoral.toasty.Toasty;
 
@@ -43,6 +46,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private TextView tvLogin;
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase;
 
     @Nullable
     @Override
@@ -56,6 +60,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         super.onActivityCreated(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
 
         initView();
     }
@@ -94,56 +99,57 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 activityBack.showFragment(activityBack.getLogin());
                 break;
             case R.id.id_btn_rg_register:
-                checkRegister();
+                final String name = textUsername.getEditText().getText().toString().trim();
+                final String email = textEmail.getEditText().getText().toString().trim();
+                final String passwrod = textPasswrod.getEditText().getText().toString().trim();
+                String confirmPasswrod = textConfirmPasswrod.getEditText().getText().toString().trim();
+
+                if (name.isEmpty()) {
+                    textUsername.setError(getString(R.string.is_empty_rg_username));
+                    return;
+                }
+                if (email.isEmpty()) {
+                    textEmail.setError(getString(R.string.is_empty_rg_email));
+                    return;
+                }
+                if (!isValidEmail(edtEmail.getText().toString().trim())) {
+                    textEmail.setError(getString(R.string.enter_a_valid_address));
+                    return;
+                }
+                if (passwrod.isEmpty()) {
+                    textPasswrod.setError(getString(R.string.is_empty_rg_passwrod));
+                    return;
+                }
+                if ((passwrod == null || passwrod.trim().length() <= 0) && confirmPasswrod.trim().length() > 0) {
+                    textConfirmPasswrod.setError(getString(R.string.is_empty_rg_confirm_passwrod));
+                } else if (passwrod != null && passwrod.trim().length() > 0) {
+                    if (passwrod.equals(confirmPasswrod)) {
+                        textConfirmPasswrod.setError(null);
+                    } else {
+                        textConfirmPasswrod.setError(getString(R.string.password_incorrect));
+                        return;
+                    }
+                }
+                mAuth.createUserWithEmailAndPassword(email,passwrod)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    DatabaseReference reference = mDatabase.getReference("User");
+                                    User user = new User(name,email,passwrod);
+                                    reference.child(mAuth.getUid()).setValue(user);
+
+                                    Toasty.success(getContext(), getString(R.string.register_success), Toasty.LENGTH_SHORT).show();
+                                    MainLogin activityLogin = (MainLogin) getActivity();
+                                    activityLogin.showFragment(activityLogin.getLogin());
+                                    activityLogin.getLogin().setData(email, passwrod);
+                                }else {
+                                    Toasty.error(getContext(), getString(R.string.register_failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                 break;
         }
-    }
-
-    private void checkRegister() {
-        String username = textUsername.getEditText().getText().toString().trim();
-        final String email = textEmail.getEditText().getText().toString().trim();
-        final String passwrod = textPasswrod.getEditText().getText().toString().trim();
-        String confirmPasswrod = textConfirmPasswrod.getEditText().getText().toString().trim();
-        if (username.isEmpty()) {
-            textUsername.setError(getString(R.string.is_empty_rg_username));
-            return;
-        }
-        if (email.isEmpty()) {
-            textEmail.setError(getString(R.string.is_empty_rg_email));
-            return;
-        }
-        if (!isValidEmail(edtEmail.getText().toString().trim())) {
-            textEmail.setError(getString(R.string.enter_a_valid_address));
-            return;
-        }
-        if (passwrod.isEmpty()) {
-            textPasswrod.setError(getString(R.string.is_empty_rg_passwrod));
-            return;
-        }
-        if ((passwrod == null || passwrod.trim().length() <= 0) && confirmPasswrod.trim().length() > 0) {
-            textConfirmPasswrod.setError(getString(R.string.is_empty_rg_confirm_passwrod));
-        } else if (passwrod != null && passwrod.trim().length() > 0) {
-            if (passwrod.equals(confirmPasswrod)) {
-                textConfirmPasswrod.setError(null);
-            } else {
-                textConfirmPasswrod.setError(getString(R.string.password_incorrect));
-                return;
-            }
-        }
-        mAuth.createUserWithEmailAndPassword(email,passwrod)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toasty.success(getContext(), getString(R.string.register_success), Toasty.LENGTH_SHORT).show();
-                            MainLogin activityLogin = (MainLogin) getActivity();
-                            activityLogin.showFragment(activityLogin.getLogin());
-                            activityLogin.getLogin().setData(email, passwrod);
-                        }else {
-                            Toasty.error(getContext(), getString(R.string.register_failed), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 
     private boolean isValidEmail(String target) {
@@ -213,4 +219,5 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void afterTextChanged(Editable editable) {
 
     }
+
 }
