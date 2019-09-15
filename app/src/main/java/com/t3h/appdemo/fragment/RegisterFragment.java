@@ -190,6 +190,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         String passwrod = textPasswrod.getEditText().getText().toString().trim();
         if (passwrod.length()<6){
             textPasswrod.setError(getString(R.string.password_to_short));
+        }else{
+            textPasswrod.setError(null);
         }
 
         if (charSequence.length() == 0) {
@@ -204,13 +206,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         } else {
             textEmail.setErrorEnabled(false);
             textEmail.setError(null);
-            return;
-        }
-        if (charSequence.length() == 0) {
-            textPasswrod.setErrorEnabled(false);
-        } else {
-            textPasswrod.setErrorEnabled(false);
-            textPasswrod.setError(null);
             return;
         }
     }
