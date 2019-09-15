@@ -75,22 +75,23 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/text_user_edit_name">
+                android:id="@+id/text_user_name">
                 <EditText
                     android:fontFamily="sans-serif-light"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/edt_user_edit_name"
+                    android:id="@+id/edt_user_name"
                     android:textSize="@dimen/sp_18"
                     android:hint="@string/hint_username"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="@dimen/dp_20"
                 android:layout_width="match_parent"
-                android:layout_below="@id/text_user_edit_name"
+                android:layout_below="@id/text_user_name"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_user_email">
                 <EditText
+                    android:enabled="false"
                     android:fontFamily="sans-serif-light"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

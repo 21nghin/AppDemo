@@ -1,5 +1,6 @@
 package com.t3h.appdemo.intent;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,29 +9,70 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.t3h.appdemo.R;
+import com.t3h.appdemo.model.User;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FloatingActionButton fabEdit;
     private Toolbar toolbar;
+    private TextView tvName;
+    private TextView tvEmail;
+    private CollapsingToolbarLayout ctlName;
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+
         toolbar = findViewById(R.id.user_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initViews();
+        getDataFirebase();
 
     }
 
+    private void getDataFirebase() {
+        DatabaseReference mReference = mDatabase.getReference("User");
+        mReference.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                tvName.setText(user.getName());
+                tvEmail.setText(user.getEmail());
+                ctlName.setTitle(user.getName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(UserActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void initViews() {
+        ctlName = findViewById(R.id.user_collapsing_toolbar);
+        tvName = findViewById(R.id.tv_user_name);
+        tvEmail = findViewById(R.id.tv_user_email);
         fabEdit = findViewById(R.id.fab_Edit);
         fabEdit.setOnClickListener(this);
     }
