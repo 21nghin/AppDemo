@@ -67,8 +67,7 @@ public class CVActivity extends AppCompatActivity implements View.OnClickListene
         //toolbar
         toolbar = findViewById(R.id.cv_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
 
         //form
         edtFullName = findViewById(R.id.edt_fullname_cv);
