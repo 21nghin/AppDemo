@@ -23,4 +23,7 @@
     <dimen name="dp_500">500dp</dimen>
     <dimen name="sp_22">22sp</dimen>
     <dimen name="dp_250">250dp</dimen>
+    <dimen name="dp_55">55dp</dimen>
+    <dimen name="dp_23">23dp</dimen>
+    <dimen name="dp_175">175dp</dimen>
 </resources>

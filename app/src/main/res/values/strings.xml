@@ -55,4 +55,7 @@
     <string name="title_name">Name</string>
     <string name="tv_edit_user">Sửa thông tin</string>
     <string name="item_add">Thêm</string>
+    <string name="hint_change_password">Mật khẩu mới</string>
+    <string name="btn_user_save_password">Lưu mật khẩu</string>
+    <string name="hint_retpe_password">Nhập lại mật khẩu</string>
 </resources>
