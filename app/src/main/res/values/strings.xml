@@ -63,4 +63,5 @@
     <string name="error404phonenumber">xin hãy nhập số điện thoại</string>
     <string name="phonenumber_to_short">số điện thoại này ko tồn tại</string>
     <string name="error404introduce">Xin hãy nhập thông tin giới thiệu bản thân</string>
+    <string name="tv_edit_user">Sửa thông tin</string>
 </resources>
