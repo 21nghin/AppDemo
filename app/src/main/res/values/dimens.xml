@@ -21,4 +21,6 @@
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_500">500dp</dimen>
+    <dimen name="sp_22">22sp</dimen>
+    <dimen name="dp_250">250dp</dimen>
 </resources>

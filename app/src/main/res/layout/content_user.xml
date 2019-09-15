@@ -2,7 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     android:background="@color/white"
@@ -18,10 +18,38 @@
         <RelativeLayout
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_person_black_24dp"
+                android:layout_marginRight="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_30"/>
+        </RelativeLayout>
         <RelativeLayout
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="4">
+            <TextView
+                android:fontFamily="sans-serif-light"
+                android:layout_marginTop="@dimen/dp_20"
+                android:textSize="@dimen/sp_16"
+                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_email"
+                android:id="@+id/email"
+                android:textColor="@color/colorIcon"/>
+            <TextView
+                android:fontFamily="sans-serif-light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kangnam@gmail.com"
+                android:textColor="@color/colorIcon"
+                android:layout_below="@+id/email"
+                android:textSize="@dimen/sp_22"
+                android:id="@+id/tv_user_email"/>
+        </RelativeLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

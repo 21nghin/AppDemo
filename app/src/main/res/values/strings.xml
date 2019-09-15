@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AppDemo</string>
-    <string name="hint_username">Tên tài khoản</string>
+    <string name="hint_username">Tên</string>
     <string name="hint_password">Mật khẩu</string>
     <string name="register">Đăng ký</string>
     <string name="login">Đăng nhập</string>
@@ -51,4 +51,8 @@
     <string name="btn_create_info">Tạo mới thông tin</string>
     <string name="password_to_short">nhập mật khẩu tối thiểu  6 ký tự</string>
     <string name="item_info_user">Thông tin tài khoản</string>
+    <string name="tv_email">Email</string>
+    <string name="title_name">Name</string>
+    <string name="tv_edit_user">Sửa thông tin</string>
+    <string name="item_add">Thêm</string>
 </resources>

@@ -23,14 +23,14 @@
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
             android:id="@+id/user_collapsing_toolbar"
-            app:title="@string/app_name">
+            app:title="@string/title_name">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:id="@+id/user_image"
                 android:fitsSystemWindows="true"
-                android:src="@drawable/galaxy_slayer_zed"
+                android:src="@drawable/shape_drawable"
                 app:layout_collapseMode="parallax"/>
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -44,6 +44,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/fab_Edit"
         android:src="@drawable/ic_edit_black_24dp"
         android:backgroundTint="#9C27B0"
         android:layout_margin="@dimen/dp_30"
