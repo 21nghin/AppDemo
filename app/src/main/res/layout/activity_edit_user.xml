@@ -127,7 +127,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/edt_user_retype_password"
                     android:textSize="@dimen/sp_18"
-                    android:hint="@string/hint_retpe_password"/>
+                    android:hint="@string/hint_retype_password"/>
             </com.google.android.material.textfield.TextInputLayout>
             <Button
                 android:layout_width="wrap_content"

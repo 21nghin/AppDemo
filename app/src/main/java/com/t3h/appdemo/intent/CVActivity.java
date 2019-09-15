@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class CVActivity extends AppCompatActivity implements View.OnClickListene
             edtEmail,edtAddress,edtIntroduce;
     private ImageView cvImage;
     private ImageButton pickImage;
-    private Button btnConfirm;
+    private Button btnConfirm,btnPickDate;
 
     private String[] PERMISSION={
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -64,10 +65,15 @@ public class CVActivity extends AppCompatActivity implements View.OnClickListene
     }
 
     private void initView() {
+
+
         //toolbar
         toolbar = findViewById(R.id.cv_toolbar);
         setSupportActionBar(toolbar);
-        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+        toolbar.setTitle(getString(R.string.cv_title));
+        toolbar.setTitleTextColor(Color.GRAY);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
 
         //form
         edtFullName = findViewById(R.id.edt_fullname_cv);
@@ -87,10 +93,11 @@ public class CVActivity extends AppCompatActivity implements View.OnClickListene
         cvImage = findViewById(R.id.cimg_avatar);
         pickImage = findViewById(R.id.imgbtn_camera_pick_image);
         btnConfirm = findViewById(R.id.btn_confirm);
-
+        btnPickDate = findViewById(R.id.btn_date_picker);
         //setOnclick
         btnConfirm.setOnClickListener(this);
         pickImage.setOnClickListener(this);
+        btnPickDate.setOnClickListener(this);
     }
 
     @Override
@@ -151,7 +158,10 @@ public class CVActivity extends AppCompatActivity implements View.OnClickListene
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()&&!email.isEmpty()){
                     edtEmail.setError(getString(R.string.enter_a_valid_address));
                 }
-                if (introduce.isEmpty()){
+                if (address.isEmpty()){
+                    edtAddress.setError(getString(R.string.error404address));
+                }
+                if (!introduce.isEmpty()){
                     edtIntroduce.setError(getString(R.string.error404introduce));
                 }
 
@@ -228,7 +238,6 @@ public class CVActivity extends AppCompatActivity implements View.OnClickListene
                             }
                         },year,month,day);
                 datePickerDialog.show();
-
             }
         }
     }

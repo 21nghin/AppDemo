@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AppDemo</string>
-    <string name="hint_username">Tên tài khoản</string>
+    <string name="hint_username">Tên</string>
     <string name="hint_password">Mật khẩu</string>
     <string name="register">Đăng ký</string>
     <string name="login">Đăng nhập</string>
@@ -51,17 +51,27 @@
     <string name="btn_create_info">Tạo mới thông tin</string>
     <string name="password_to_short">nhập mật khẩu tối thiểu  6 ký tự</string>
     <string name="item_info_user">Thông tin tài khoản</string>
-    <string name="cv_title">CV Xin Việc</string>
-    <string name="full_name">Họ và Tên</string>
-    <string name="date_of_birth">Ngày Tháng Năm Sinh</string>
-    <string name="phone_number">Số Điện Thoại</string>
-    <string name="email_address">Địa Chi Email</string>
-    <string name="introduce_youselft">Giới Thiệu Về Bản Thân</string>
+    <string name="tv_email">Email</string>
+    <string name="title_name">Name</string>
+    <string name="tv_edit_user">Sửa thông tin</string>
+    <string name="item_add">Thêm</string>
+    <string name="hint_change_password">Mật khẩu mới</string>
+    <string name="btn_user_save_password">Lưu mật khẩu</string>
+    <string name="hint_retype_password">Nhập lại mật khẩu</string>
+
     <string name="create">tạo cv</string>
     <string name="erro404fullname">Xin hãy nhập họ tên</string>
     <string name="erro404dateofbirth">Xin hãy chọn ngày tháng năm sinh</string>
     <string name="error404phonenumber">xin hãy nhập số điện thoại</string>
     <string name="phonenumber_to_short">số điện thoại này ko tồn tại</string>
     <string name="error404introduce">Xin hãy nhập thông tin giới thiệu bản thân</string>
-    <string name="tv_edit_user">Sửa thông tin</string>
+    <string name="cv_title">CV Xin Việc</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="date_of_birth">Ngày Tháng Năm sinh</string>
+    <string name="phone_number">Số Điện Thoại</string>
+    <string name="email_address">Địa Chỉ email</string>
+    <string name="introduce_youselft">Giới thiệu Bản thân</string>
+    <string name="address">Nhập địa chỉ nơi bạn hiện đang sống</string>
+    <string name="error404address">Xin hãy nhập đầy đủ thông tin nơi bạn hiện đang sống</string>
+
 </resources>
