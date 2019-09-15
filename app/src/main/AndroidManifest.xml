@@ -9,17 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".intent.EditUserActivity"></activity>
-        <activity android:name=".intent.UserActivity" />
-        <activity android:name=".intent.ProfileActivity" />
-        <activity android:name=".intent.PassordActivity" />
-        <activity android:name=".intent.MainApp" />
-        <activity android:name=".intent.MainLogin">
+        <activity android:name=".intent.CVActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity android:name=".intent.UserActivity"></activity>
+        <activity android:name=".intent.ProfileActivity" />
+        <activity android:name=".intent.PassordActivity" />
+        <activity android:name=".intent.MainApp" />
+        <activity android:name=".intent.MainLogin">
+
         </activity>
     </application>
 
