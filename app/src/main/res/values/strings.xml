@@ -79,4 +79,20 @@
         <string name="error404address">Xin hãy nhập đầy đủ thông tin nơi bạn hiện đang sống</string>
         <!-- TODO:  -->
         <string name="update_user_change">Đổi thông tin thành công</string>
+    <string name="job_title">Tiêu đề công việc</string>
+    <string name="job_review">Giới Thiệu Công Việc</string>
+    <string name="dateUpload">Ngày Đăng Bài</string>
+    <string name="jobstatus">Kiểm tra tuyển dụng</string>
+    <string name="like">thích</string>
+    <string name="comment">Bình Luận</string>
+    <string name="share">Chia Sẻ</string>
+    <string name="intro_company">giới thiệu về công ty :</string>
+    <string name="company_address">+Địa chỉ Công Ty</string>
+    <string name="company_time_work">+Thời gian làm việc công ty</string>
+    <string name="company_email">+Địa chỉ email</string>
+    <string name="some_infor_compnay">Một số thông tin về công ty</string>
+    <string name="infor_job">Thông tin Công Việc</string>
+    <string name="detail_job">Chi tiết công việc</string>
+    <string name="send_cv">Gửi Hồ Sơ</string>
+    <string name="dateCommnent">Ngày Binh Luận</string>
 </resources>
