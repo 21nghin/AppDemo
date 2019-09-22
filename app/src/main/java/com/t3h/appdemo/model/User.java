@@ -5,6 +5,7 @@ public class User {
     private String Name;
     private String Email;
     private String Passwrod;
+    private String Image;
 
     public User() {
     }
@@ -13,6 +14,13 @@ public class User {
         Name = name;
         Email = email;
         Passwrod = passwrod;
+    }
+
+    public User(String name, String email, String passwrod, String image) {
+        Name = name;
+        Email = email;
+        Passwrod = passwrod;
+        Image = image;
     }
 
     public String getName() {
@@ -37,5 +45,13 @@ public class User {
 
     public void setPasswrod(String passwrod) {
         Passwrod = passwrod;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 }

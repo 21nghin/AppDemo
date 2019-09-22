@@ -1,5 +1,7 @@
 package com.t3h.appdemo.intent;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.SearchView;
@@ -8,12 +10,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,7 +33,6 @@ public class MainApp extends AppCompatActivity {
 
     private BottomAppBar appBar;
     private FloatingActionButton fabAdd;
-    private Switch aSwitch;
 
     private TabLayout tabApp;
     private ViewPager pagerApp;
@@ -39,29 +41,17 @@ public class MainApp extends AppCompatActivity {
     private NotificationFragment notification = new NotificationFragment();
     private AppAdapter appAdapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main_app);
 
         setUpAppView();
         setUpAppBar();
-        initView();
     }
 
-    private void initView() {
-        aSwitch = findViewById(R.id.id_switch);
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    fabAdd.hide();
-                } else {
-                    fabAdd.show();
-                }
-            }
-        });
-    }
 
     private void setUpAppBar() {
         appBar = findViewById(R.id.id_app_bar);
@@ -115,6 +105,7 @@ public class MainApp extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_app_bar, menu);
         MenuItem searchItem = menu.findItem(R.id.id_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
+
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

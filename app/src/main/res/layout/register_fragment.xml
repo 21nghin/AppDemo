@@ -1,188 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<RelativeLayout
+    android:padding="30dp"
+    android:id="@+id/rl_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logo"
+        android:textSize="50sp"
+        android:fontFamily="@font/sofiapro_medium"
+        android:textColor="@color/colorTim"
+        android:id="@+id/tv_logo"/>
+</RelativeLayout>
+<RelativeLayout
+    android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape_drawable"
-    android:orientation="vertical"
-    android:weightSum="10">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0"
-        android:layout_weight="9"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/lo_go"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_60" />
-    </LinearLayout>
-
+    android:layout_below="@+id/rl_layout">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:orientation="vertical"
-        android:padding="@dimen/dp_20">
-
+        android:id="@+id/ll_layout"
+        android:orientation="vertical">
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_rg_username"
-            style="@style/LoginTextInputLayoutStyle"
-            android:fontFamily="sans-serif-light"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_20"
-            android:textColorHint="@color/white"
+            android:textColorHint="#545D91"
             android:theme="@style/LoginTextInputLayoutStyle"
-            app:boxBackgroundColor="@color/babay"
-            app:boxBackgroundMode="none">
-
+            android:id="@+id/text_rg_username">
             <com.google.android.material.textfield.TextInputEditText
-                android:fontFamily="sans-serif-light"
+                android:padding="15dp"
+                android:textColorHighlight="#545D91"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/edt_rg_username"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/white"
-                android:hint="@string/hint_username"
-                android:padding="@dimen/dp_20"
-                android:textColor="@color/white" />
+                android:hint="Pick your name"
+                android:fontFamily="@font/sofiapro_light"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/email_24"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/colorTim"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_rg_email"
-            style="@style/LoginTextInputLayoutStyle"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_20"
-            android:fontFamily="sans-serif-light"
-            android:textColorHint="@color/white"
+            android:textColorHint="#545D91"
             android:theme="@style/LoginTextInputLayoutStyle"
-            app:boxBackgroundColor="@color/babay"
-            app:boxBackgroundMode="none">
-
+            android:id="@+id/text_rg_email">
             <com.google.android.material.textfield.TextInputEditText
-                android:fontFamily="sans-serif-light"
+                android:padding="15dp"
+                android:inputType="textEmailAddress"
+                android:textColorHighlight="#545D91"
                 android:layout_width="match_parent"
-                android:id="@+id/edt_rg_email"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/white"
-                android:hint="@string/hint_email"
-                android:padding="@dimen/dp_20"
-                android:textColor="@color/white" />
+                android:id="@+id/edt_rg_email"
+                android:hint="Enter your email address"
+                android:fontFamily="@font/sofiapro_light"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/new_post_24"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/colorTim"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_rg_password"
-                style="@style/LoginTextInputLayoutStyle"
-                android:fontFamily="sans-serif-light"
+            android:layout_marginBottom="10dp"
+            android:textColorHint="#545D91"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            app:passwordToggleTint="#673AB7"
+            app:passwordToggleEnabled="true"
+            android:id="@+id/text_rg_password">
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dp_5"
-                android:layout_marginBottom="@dimen/dp_20"
-                android:layout_weight="1"
-                android:textColorHint="@color/white"
-                android:theme="@style/LoginTextInputLayoutStyle"
-                app:boxBackgroundColor="@color/babay"
-                app:boxBackgroundMode="none"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/white">
+                android:padding="15dp"
+                android:layout_height="match_parent"
+                android:id="@+id/edt_rg_passwrod"
+                android:hint="Enter password"
+                android:inputType="textVisiblePassword"
+                android:drawableStart="@drawable/key_24"
+                android:fontFamily="@font/sofiapro_light"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/key_24"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/colorTim"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:fontFamily="sans-serif-light"
-                    android:layout_width="match_parent"
-                    android:id="@+id/edt_rg_passwrod"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/white"
-                    android:hint="@string/hint_password"
-                    android:inputType="textVisiblePassword"
-                    android:padding="@dimen/dp_20"
-                    android:textColor="@color/white" />
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_rg_confirm_password"
-                style="@style/LoginTextInputLayoutStyle"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textColorHint="#545D91"
+            android:theme="@style/LoginTextInputLayoutStyle"
+            app:passwordToggleTint="#673AB7"
+            app:passwordToggleEnabled="true"
+            android:id="@+id/text_rg_confirm_password">
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_5"
-                android:layout_marginBottom="@dimen/dp_20"
-                android:layout_weight="1"
-                android:textColorHint="@color/white"
-                android:theme="@style/LoginTextInputLayoutStyle"
-                app:boxBackgroundColor="@color/babay"
-                android:fontFamily="sans-serif-light"
-                app:boxBackgroundMode="none"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/white">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:fontFamily="sans-serif-light"
-                    android:id="@+id/edt_rg_confirm_passwrod"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/white"
-                    android:hint="@string/hint_confirm"
-                    android:inputType="textVisiblePassword"
-                    android:padding="@dimen/dp_20"
-                    android:textColor="@color/white" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
+                android:padding="15dp"
+                android:layout_height="match_parent"
+                android:id="@+id/edt_rg_confirm_passwrod"
+                android:hint="Retype password"
+                android:inputType="textVisiblePassword"
+                android:drawableStart="@drawable/key_24"
+                android:fontFamily="@font/sofiapro_light"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/key_24"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/colorTim"/>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <RelativeLayout
+        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right">
-
+        android:layout_below="@+id/ll_layout">
         <Button
-            android:id="@+id/id_btn_rg_register"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_75"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/dp_20"
-            android:background="@drawable/btn_custom"
-            android:fontFamily="sans-serif-light"
-            android:padding="@dimen/dp_15"
-            android:text="@string/register"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_20" />
-        <LinearLayout
-            android:gravity="center"
-            android:orientation="horizontal"
+            android:fontFamily="@font/sofiapro_medium"
+            android:background="@drawable/shape_btn"
+            android:textColor="#fff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/id_btn_rg_register"
-            android:layout_centerInParent="true">
-            <TextView
-                android:fontFamily="sans-serif-light"
-                android:text="@string/account_regiser"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/id_tv_rg_login"
-                android:textColorLink="@color/white"
-                android:textStyle="italic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:text="@string/link_login"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
-
-        </LinearLayout>
+            android:text="Sign Up"
+            android:textAllCaps="false"
+            android:textSize="24sp"
+            android:id="@+id/id_btn_rg_register"
+            android:padding="10dp"/>
+        <TextView
+            android:textColor="#545D91"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/sofiapro_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account ?"
+            android:textSize="16sp"
+            android:layout_below="@+id/id_btn_rg_register"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/tv_text_2"/>
+        <TextView
+            android:layout_marginTop="7dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tv_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:textSize="18sp"
+            android:fontFamily="@font/sofiapro_medium"
+            android:textColor="@color/colorTim"
+            android:id="@+id/id_tv_rg_login"/>
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>
+</RelativeLayout>

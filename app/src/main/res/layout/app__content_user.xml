@@ -6,9 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     android:background="@color/white"
-    tools:showIn="@layout/activity_user"
+    tools:showIn="@layout/app_user"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".intent.UserActivity"
+    tools:context=".intent.UserApp"
     android:orientation="vertical">
 
     <LinearLayout

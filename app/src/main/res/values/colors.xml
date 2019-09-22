@@ -12,4 +12,10 @@
     <color name="btn_gray">#616161</color>
     <color name="btn_green">#76FF03</color>
     <color name="colorIcon">#5D6874</color>
+    <color name="colorLoading">#9C27B0</color>
+
+    <color name="colorTim">#673AB7</color>
+    <color name="colorPurple">#983CFF</color>
+    <color name="colorBlue">#3E55D8</color>
+
 </resources>

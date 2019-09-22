@@ -27,4 +27,7 @@
     <dimen name="dp_23">23dp</dimen>
     <dimen name="dp_175">175dp</dimen>
     <dimen name="dp_108">108dp</dimen>
+    <dimen name="dp_2_1">2.2dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
+    <dimen name="dp_48">48dp</dimen>
 </resources>

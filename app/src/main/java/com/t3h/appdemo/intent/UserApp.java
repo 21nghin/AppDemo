@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,16 +22,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.model.User;
 
-public class UserActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserApp extends AppCompatActivity implements View.OnClickListener {
 
     private FloatingActionButton fabEdit;
     private Toolbar toolbar;
     private TextView tvName;
     private TextView tvEmail;
     private CollapsingToolbarLayout ctlName;
+    private ImageView imImage;
+    private ProgressBar idProgress;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
@@ -37,7 +42,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.app_user);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -60,11 +65,19 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 tvName.setText(user.getName());
                 tvEmail.setText(user.getEmail());
                 ctlName.setTitle(user.getName());
+                Picasso.with(UserApp.this)
+                        .load(user.getImage())
+                        .skipMemoryCache()
+                        .fit()
+                        .centerCrop()
+                        .into(imImage);
+                idProgress.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(UserActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserApp.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                idProgress.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -74,6 +87,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         tvName = findViewById(R.id.tv_user_name);
         tvEmail = findViewById(R.id.tv_user_email);
         fabEdit = findViewById(R.id.fab_Edit);
+        imImage = findViewById(R.id.user_image);
+        idProgress = findViewById(R.id.user_load);
         fabEdit.setOnClickListener(this);
     }
 
@@ -89,6 +104,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        startActivity(new Intent(this,EditUserActivity.class));
+        startActivity(new Intent(this, EditUserApp.class));
     }
 }

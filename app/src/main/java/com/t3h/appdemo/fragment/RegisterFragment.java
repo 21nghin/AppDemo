@@ -1,5 +1,6 @@
 package com.t3h.appdemo.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -48,6 +49,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
 
+    private ProgressDialog progressDialog;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initView() {
+        progressDialog = new ProgressDialog(getContext());
         textUsername = getActivity().findViewById(R.id.text_rg_username);
         textEmail = getActivity().findViewById(R.id.text_rg_email);
         textPasswrod = getActivity().findViewById(R.id.text_rg_password);
@@ -130,6 +134,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                         return;
                     }
                 }
+                progressDialog.setMessage("Loading...");
+                progressDialog.show();
+                progressDialog.setCancelable(false);
                 mAuth.createUserWithEmailAndPassword(email,passwrod)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -138,13 +145,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                                     DatabaseReference reference = mDatabase.getReference("User");
                                     User user = new User(name,email,passwrod);
                                     reference.child(mAuth.getUid()).setValue(user);
-
                                     Toasty.success(getContext(), getString(R.string.register_success), Toasty.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
                                     MainLogin activityLogin = (MainLogin) getActivity();
                                     activityLogin.showFragment(activityLogin.getLogin());
                                     activityLogin.getLogin().setData(email, passwrod);
                                 }else {
                                     Toasty.error(getContext(), getString(R.string.register_failed), Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
                                 }
                             }
                         });

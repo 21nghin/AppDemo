@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.t3h.appdemo.R;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileApp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.app_profile);
     }
 }

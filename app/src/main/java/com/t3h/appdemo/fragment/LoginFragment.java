@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.t3h.appdemo.intent.MainApp;
 import com.t3h.appdemo.intent.MainLogin;
-import com.t3h.appdemo.intent.PassordActivity;
+import com.t3h.appdemo.intent.PasswordApp;
 import com.t3h.appdemo.R;
 
 
@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_forgot_password:
-                startActivity(new Intent(getContext(), PassordActivity.class));
+                startActivity(new Intent(getContext(), PasswordApp.class));
                 break;
             case R.id.id_tv_lg_register:
                 MainLogin activity = (MainLogin) getActivity();
@@ -120,6 +120,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
+
+
                             progressDialog.dismiss();
                             startActivity(new Intent(getContext(), MainApp.class));
                             getActivity().finish();

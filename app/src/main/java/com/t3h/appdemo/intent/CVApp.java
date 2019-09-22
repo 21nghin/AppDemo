@@ -11,11 +11,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 
 import com.t3h.appdemo.R;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -37,7 +34,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class CVActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+public class CVApp extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     private EditText edtFullName,edtDateOfBirth,edtPhonenumber,
             edtEmail,edtAddress,edtIntroduce;
@@ -58,7 +55,7 @@ public class CVActivity extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cv_activity);
+        setContentView(R.layout.app_cv);
         if (checkPermissions()){
             initView();
         }
@@ -183,6 +180,9 @@ public class CVActivity extends AppCompatActivity implements View.OnClickListene
                 }
                 break;
             }
+            case android.R.id.home:
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

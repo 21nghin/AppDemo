@@ -4,44 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/id_draw_lout"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".intent.MainApp">
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/id_tablayout"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_chat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:tabIndicatorColor="@color/textMenuColor"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/textMenuColor"
-            app:tabTextColor="@color/colorMenu" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/id_viewpager"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"/>
+        <LinearLayout
+            android:layout_below="@+id/tool_chat"
+            android:id="@+id/ll_tab_lay_out"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
-                android:id="@+id/id_panel"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/id_tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </androidx.viewpager.widget.ViewPager>
-    </LinearLayout>
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:tabIndicatorColor="@color/textMenuColor"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/textMenuColor"
+                app:tabTextColor="@color/colorMenu" />
 
-
-    <Switch
-        android:id="@+id/id_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Tắt chức năng thêm"
-        android:textColor="@color/black" />
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/id_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <FrameLayout
+                    android:id="@+id/id_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </androidx.viewpager.widget.ViewPager>
+        </LinearLayout>
+    </RelativeLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/id_app_bar"
