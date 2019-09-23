@@ -26,6 +26,7 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
     private Animation fade;
     private Boolean checklike = false;
     private Boolean checkShare = false;
+
     public void setListener(ItemListener listener) {
         this.listener = listener;
     }
@@ -37,13 +38,13 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
 
     public ListJobAdapter(Context context) {
         inflater = LayoutInflater.from(context);
-        fade = AnimationUtils.loadAnimation(context,R.anim.fade_scale_animation);
+        fade = AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation);
     }
 
     @NonNull
     @Override
     public RcvHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = inflater.inflate(R.layout.item_job,parent,false);
+        View v = inflater.inflate(R.layout.item_job, parent, false);
         return new RcvHolder(v);
     }
 
@@ -51,7 +52,7 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
     public void onBindViewHolder(@NonNull final RcvHolder holder, final int position) {
         holder.bindData(data.get(position));
         holder.itemView.setAnimation(fade);
-        if (listener!=null){
+        if (listener != null) {
             holder.ln_item_comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -62,25 +63,18 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checklike){
+                if (checklike) {
                     holder.like.setImageResource(R.drawable.ic_like);
                     checklike = false;
-                }else {
+                } else {
                     holder.like.setImageResource(R.drawable.ic_likedefault);
-                    checklike =true;
+                    checklike = true;
                 }
             }
         });
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkShare){
-                    holder.share.setImageResource(R.drawable.ic_sharedefault);
-                    checkShare =false;
-                }else {
-                    holder.share.setImageResource(R.drawable.ic_share);
-                    checkShare =true;
-                }
 
             }
         });
@@ -88,15 +82,15 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
 
     @Override
     public int getItemCount() {
-        return data==null?0:data.size();
+        return data == null ? 0 : data.size();
     }
 
-    public  class RcvHolder extends RecyclerView.ViewHolder{
-        private ImageView imageView,comment;
+    public class RcvHolder extends RecyclerView.ViewHolder {
+        private ImageView imageView, comment;
         private LinearLayout ln_item_comment;
-        private ImageButton like,share;
-        private TextView title,intro,date,
-                numberLike,numberShare,numberComment;
+        private ImageButton like, share;
+        private TextView title, intro, date,
+                numberLike, numberShare, numberComment;
 
         public RcvHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,11 +103,11 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
             comment = itemView.findViewById(R.id.imgbtn_cmt_item_cmt);
             share = itemView.findViewById(R.id.imgbtn_share_item_job);
             numberLike = itemView.findViewById(R.id.tv_number_like_item_job);
-            numberComment= itemView.findViewById(R.id.tv_number_comment_item_job);
+            numberComment = itemView.findViewById(R.id.tv_number_comment_item_job);
             numberShare = itemView.findViewById(R.id.tv_number_share_item_job);
         }
 
-        public void bindData(JobModel jobModel){
+        public void bindData(JobModel jobModel) {
             title.setText(jobModel.getTitle());
             intro.setText(jobModel.getIntro());
             date.setText(jobModel.getDate());
@@ -123,7 +117,7 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         }
     }
 
-    public interface ItemListener{
+    public interface ItemListener {
         void itemOnclickListener(int position);
     }
 }

@@ -1,6 +1,8 @@
 package com.t3h.appdemo.model;
 
 public class JobModel {
+
+//    private String image;
     private String title;
     private String intro;
     private String date;

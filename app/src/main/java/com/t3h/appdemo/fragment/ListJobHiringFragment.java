@@ -27,7 +27,7 @@ public class ListJobHiringFragment extends Fragment implements ListJobAdapter.It
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.list_job,container,false);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return v;
     }
 
     @Override

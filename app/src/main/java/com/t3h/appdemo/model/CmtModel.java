@@ -1,6 +1,7 @@
 package com.t3h.appdemo.model;
 
 public class CmtModel {
+//    private String image;
     private String userName;
     private String date;
     private String cmt;
