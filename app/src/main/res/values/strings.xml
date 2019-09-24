@@ -97,4 +97,7 @@
     <string name="detail_job">Chi tiết công việc</string>
     <string name="send_cv">Gửi Hồ Sơ</string>
     <string name="dateCommnent">Ngày Binh Luận</string>
+    <string name="answer">Trả Lời</string>
+    <string name="number">12</string>
+
 </resources>

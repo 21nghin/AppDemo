@@ -51,7 +51,7 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
     @Override
     public void onBindViewHolder(@NonNull final RcvHolder holder, final int position) {
         holder.bindData(data.get(position));
-        holder.itemView.setAnimation(fade);
+        holder.itemView.startAnimation(fade);
         if (listener != null) {
             holder.ln_item_comment.setOnClickListener(new View.OnClickListener() {
                 @Override

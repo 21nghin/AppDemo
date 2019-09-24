@@ -37,7 +37,7 @@
                          android:layout_width="50dp"
                          android:layout_gravity="center|left"
                          android:layout_height="match_parent"
-                         android:src="@drawable/ad_min"
+                         android:src="@drawable/image_view"
                          android:id="@+id/im_account"/>
                      <ImageView
                          android:textColor="@color/white"
