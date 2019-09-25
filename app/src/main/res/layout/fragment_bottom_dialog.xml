@@ -33,6 +33,8 @@
             android:visibility="gone" />
 
         <TextView
+            android:ellipsize="end"
+            android:maxLines="1"
             android:fontFamily="@font/sofiapro_light"
             android:id="@+id/tv_email"
             android:layout_width="match_parent"
@@ -46,7 +48,10 @@
 
 
         <TextView
-            android:fontFamily="@font/sofiapro_medium"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:fontFamily="sans-serif-light"
             android:id="@+id/tv_Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +59,7 @@
             android:layout_marginLeft="16dp"
             android:text="Dr. Droid"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18" />
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

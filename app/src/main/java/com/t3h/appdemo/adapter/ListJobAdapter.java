@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.model.JobModel;
 
@@ -89,31 +90,40 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         private ImageView imageView, comment;
         private LinearLayout ln_item_comment;
         private ImageButton like, share;
-        private TextView title, intro, date,
-                numberLike, numberShare, numberComment;
+        private TextView tvTitle, tvIntro, tvDate,tvSattusJob,
+                tvNumberLike, tvNumberShare, tvNumberComment;
 
         public RcvHolder(@NonNull View itemView) {
             super(itemView);
             ln_item_comment = itemView.findViewById(R.id.ln_item_cmt);
             imageView = itemView.findViewById(R.id.imv_image_item_job);
-            title = itemView.findViewById(R.id.tv_title_item_job);
-            intro = itemView.findViewById(R.id.tv_intro_item_job);
-            date = itemView.findViewById(R.id.tv_date_item_job);
+            tvTitle = itemView.findViewById(R.id.tv_title_item_job);
+            tvIntro = itemView.findViewById(R.id.tv_intro_item_job);
+            tvDate = itemView.findViewById(R.id.tv_date_item_job);
+            tvSattusJob = itemView.findViewById(R.id.tv_status_item_job);
+
             like = itemView.findViewById(R.id.imgbtn_like_item_job);
             comment = itemView.findViewById(R.id.imgbtn_cmt_item_cmt);
             share = itemView.findViewById(R.id.imgbtn_share_item_job);
-            numberLike = itemView.findViewById(R.id.tv_number_like_item_job);
-            numberComment = itemView.findViewById(R.id.tv_number_comment_item_job);
-            numberShare = itemView.findViewById(R.id.tv_number_share_item_job);
+
+            tvNumberLike = itemView.findViewById(R.id.tv_number_like_item_job);
+            tvNumberShare = itemView.findViewById(R.id.tv_number_comment_item_job);
+            tvNumberComment = itemView.findViewById(R.id.tv_number_share_item_job);
         }
 
-        public void bindData(JobModel jobModel) {
-            title.setText(jobModel.getTitle());
-            intro.setText(jobModel.getIntro());
-            date.setText(jobModel.getDate());
-            numberLike.setText(jobModel.getNumberLike());
-            numberComment.setText(jobModel.getNumberComment());
-            numberShare.setText(jobModel.getNumberShare());
+        public void bindData(JobModel item) {
+            tvTitle.setText(item.getTitle());
+            tvIntro.setText(item.getIntroduceJob());
+            Glide.with(imageView).load(item.getImage())
+                    .skipMemoryCache(true)
+                    .placeholder(R.drawable.media_img)
+                    .error(R.drawable.media_img)
+                    .into(imageView);
+            tvSattusJob.setText(item.getRecruiTime());
+//            date.setText(jobModel.getDate());
+//            numberLike.setText(jobModel.getNumberLike());
+//            numberComment.setText(jobModel.getNumberComment());
+//            numberShare.setText(jobModel.getNumberShare());
         }
     }
 

@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,10 +66,8 @@ public class UserApp extends AppCompatActivity implements View.OnClickListener {
                 tvName.setText(user.getName());
                 tvEmail.setText(user.getEmail());
                 ctlName.setTitle(user.getName());
-                Picasso.with(UserApp.this)
-                        .load(user.getImage())
-                        .skipMemoryCache()
-                        .fit()
+                Glide.with(UserApp.this).load(user.getImage())
+                        .skipMemoryCache(true)
                         .centerCrop()
                         .into(imImage);
                 idProgress.setVisibility(View.GONE);

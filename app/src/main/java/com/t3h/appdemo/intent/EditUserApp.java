@@ -21,6 +21,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -103,11 +104,10 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
                 edtEmail.setText(user.getEmail());
                 edtPass.setText(user.getPasswrod());
                 edtCofirmPass.setText(user.getPasswrod());
-                Picasso.with(EditUserApp.this).load(user.getImage())
-                        .skipMemoryCache()
+                Glide.with(EditUserApp.this).load(user.getImage())
+                        .skipMemoryCache(true)
                         .error(R.drawable.ic_account_circle)
                         .placeholder(R.drawable.ic_account_circle)
-                        .fit()
                         .centerCrop()
                         .into(imAddImage);
             }

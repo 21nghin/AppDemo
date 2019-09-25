@@ -86,18 +86,33 @@
     <string name="dateUpload">Ngày Đăng Bài</string>
     <string name="jobstatus">Kiểm tra tuyển dụng</string>
     <string name="like">thích</string>
-    <string name="comment">bình Luận</string>
+    <string name="comment">bình luận</string>
     <string name="share">chia sẻ</string>
-    <string name="intro_company">giới thiệu về công ty :</string>
-    <string name="company_address">+Địa chỉ Công Ty</string>
-    <string name="company_time_work">+Thời gian làm việc công ty</string>
-    <string name="company_email">+Địa chỉ email</string>
-    <string name="some_infor_compnay">Một số thông tin về công ty</string>
-    <string name="infor_job">Thông tin Công Việc</string>
+    <string name="intro_work">+ Introduce job :</string>
+    <string name="company_address">+ Company address :</string>
+    <string name="company_time_work">+ Company time job :</string>
+    <string name="company_email">+ Company email :</string>
+    <string name="some_infor_compnay">+ Some company information :</string>
+    <string name="infor_job">+ Infomation job :</string>
     <string name="detail_job">Chi tiết công việc</string>
-    <string name="send_cv">Gửi Hồ Sơ</string>
+    <string name="send_cv">Send file job</string>
     <string name="dateCommnent">Ngày Binh Luận</string>
     <string name="answer">Trả Lời</string>
     <string name="number">12</string>
 
+=======
+
+<!--TODO-->
+    <string name="tite_toolbar_news">Create new recruit</string>
+    <string name="edt_write_comment">Write comment...</string>
+    <string name="title_detail_job">Detail job</string>
+    <string name="item_saved">Saved</string>
+    <string name="item_chat_new">Chat</string>
+    <string name="item_delete">Delete</string>
+    <string name="dialog_message_delete_detel">Do you want to delete this item?</string>
+    <string name="message_yes">Yes</string>
+    <string name="message_no">No</string>
+    <string name="recruitime_period">+ Recruitime period</string>
+    <string name="dialog_loading">Loading...</string>
+    <string name="today">00/00/00</string>
 </resources>

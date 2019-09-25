@@ -1,108 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
+    <com.google.android.material.appbar.AppBarLayout
+        app:liftOnScroll="true"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        app:elevation="@dimen/dp_0"
+        android:id="@+id/app_bar"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/detail_toolbar"
+            android:background="@android:color/transparent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="?attr/actionBarSize"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    <View
+        app:layout_anchor="@+id/detail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#37373737"
+        app:layout_anchorGravity="bottom"/>
 
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/detail_news_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/colorXam"
+        app:layout_anchor="@+id/id_app_bar"/>
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/id_app_bar"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fabAlignmentMode="center"
+        app:fabCradleMargin="@dimen/dp_8"
+        app:fabCradleRoundedCornerRadius="0dp"
+        app:hideOnScroll="true">
+        <RelativeLayout
+            android:padding="@dimen/dp_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:id="@+id/item_saved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_save_black_24dp"/>
+            <ImageButton
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_email_black_24dp"
+                android:layout_toRightOf="@+id/item_saved"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:id="@+id/item_detail_chat"/>
+            <ImageButton
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="@dimen/dp_15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete_black_24dp"
+                android:layout_toRightOf="@+id/item_detail_chat"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:id="@+id/item_detail_delete"/>
+            <EditText
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/item_detail_delete"
+                android:id="@+id/edt_comment"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:theme="@style/LoginTextInputLayoutStyle"
+                android:layout_marginRight="@dimen/dp_10"
+                android:textSize="@dimen/sp_16"
+                android:fontFamily="sans-serif-light"
+                android:padding="@dimen/dp_10"
+                android:hint="@string/edt_write_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_comment"/>
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="center"
-                android:src="@drawable/image_view" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/job_title"
-                android:textColor="@color/colorAccent"
-                android:textSize="20sp" />
-
-            <TextView
+                android:layout_marginBottom="@dimen/dp_3"
+                android:layout_alignBottom="@+id/edt_comment"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_alignRight="@+id/edt_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="@string/intro_company" />
+                android:src="@drawable/ic_send_comment"/>
+        </RelativeLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:text="@string/company_address" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:text="@string/company_time_work" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:text="@string/company_email" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:text="@string/some_infor_compnay" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:text="@string/infor_job" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:text="@string/detail_job" />
-
-            <Button
-                android:id="@+id/btn_send_cv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/send_cv" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/edt_cmt_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/comment" />
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_send" />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/lv_comment"
-                    android:layout_below="@+id/edt_cmt_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-            </RelativeLayout>
-        </LinearLayout>
-
-    </ScrollView>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

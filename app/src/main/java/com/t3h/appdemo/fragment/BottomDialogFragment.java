@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -25,7 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 import com.t3h.appdemo.intent.CVApp;
 import com.t3h.appdemo.intent.ChatApp;
 import com.t3h.appdemo.intent.MainLogin;
@@ -35,7 +36,7 @@ import com.t3h.appdemo.model.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class BottomDialogFragment extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class BottomDialogFragment extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, ValueEventListener {
 
     private ImageView imClose;
     private NavigationView navigationView;
@@ -46,6 +47,7 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private ProgressDialog progressDialog;
+    private DatabaseReference reference;
 
     public static BottomDialogFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -73,6 +75,16 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
         }
     };
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        reference = mDatabase.getReference("User").child(mAuth.getUid());
+        reference.addValueEventListener(this);
+
+    }
+
     @SuppressLint("RestrictedApi")
     @Override
     public void setupDialog(Dialog dialog, int style) {
@@ -82,29 +94,28 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
 
         navigationView = v.findViewById(R.id.navigation_view);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference reference = mDatabase.getReference("User");
-        reference.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                tvEmail.setText(user.getEmail());
-                tvName.setText(user.getName());
-                Picasso.with(getContext()).load(user.getImage())
-                        .skipMemoryCache()
-                        .error(R.drawable.ic_account_circle_black_24dp)
-                        .placeholder(R.drawable.ic_account_circle_black_24dp)
-                        .fit()
-                        .centerCrop()
-                        .into(imImage);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), databaseError.getCode(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        mAuth = FirebaseAuth.getInstance();
+//        mDatabase = FirebaseDatabase.getInstance();
+//        DatabaseReference reference = mDatabase.getReference("User");
+//        reference.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                User user = dataSnapshot.getValue(User.class);
+//                tvEmail.setText(user.getEmail());
+//                tvName.setText(user.getName());
+//                Glide.with(getActivity()).load(user.getImage())
+//                        .skipMemoryCache(true)
+//                        .error(R.drawable.ic_account_circle_black_24dp)
+//                        .placeholder(R.drawable.ic_account_circle_black_24dp)
+//                        .centerCrop()
+//                        .into(imImage);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(getContext(), databaseError.getCode(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         tvEmail = v.findViewById(R.id.tv_email);
         tvName = v.findViewById(R.id.tv_Name);
@@ -113,7 +124,7 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
 
         navigationView.setNavigationItemSelectedListener(this);
         imClose.setOnClickListener(this);
-        
+
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) v.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();
         if (behavior instanceof BottomSheetBehavior) {
@@ -136,6 +147,10 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
             case R.id.item_chat:
                 startActivity(new Intent(getContext(), ChatApp.class));
                 break;
+            case R.id.id_nav03:
+
+                break;
+
         }
         return false;
     }
@@ -153,5 +168,29 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
     @Override
     public void onClick(View view) {
         dismiss();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        reference.removeEventListener(this);
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        User user = dataSnapshot.getValue(User.class);
+        tvEmail.setText(user.getEmail());
+        tvName.setText(user.getName());
+        Glide.with(getActivity()).load(user.getImage())
+                .skipMemoryCache(true)
+                .error(R.drawable.ic_account_circle_black_24dp)
+                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                .centerCrop()
+                .into(imImage);
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {
+        Toast.makeText(getContext(), databaseError.getCode(), Toast.LENGTH_SHORT).show();
     }
 }

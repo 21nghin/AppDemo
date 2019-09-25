@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/create_cv"
-        android:title="@string/create"
-        android:iconTint="@color/btn_green"
         android:icon="@drawable/ic_check_black_24dp"
-        app:showAsAction="always"
-        />
+        android:iconTint="@color/btn_green"
+        android:title="@string/create"
+        app:showAsAction="always" />
 </menu>

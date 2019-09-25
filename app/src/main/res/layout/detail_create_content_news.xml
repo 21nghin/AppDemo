@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_marginTop="@dimen/dp_56"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/creat_im_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_250"
+                android:scaleType="fitXY"
+                android:src="@drawable/infotect_jobs" />
+
+            <EditText
+                android:id="@+id/creat_edt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/creat_im_image"
+                android:background="#37373737"
+                android:ellipsize="end"
+                android:fontFamily="@font/sofiapro_medium"
+                android:hint="Enter your title..."
+                android:maxLines="4"
+                android:padding="@dimen/dp_15"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/sp_20"
+                android:textStyle="bold"
+                android:theme="@style/LoginTextInputLayoutStyle" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/creat_text_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/creat_im_image"
+                android:layout_marginTop="@dimen/dp_15"
+                android:theme="@style/LoginTextInputLayoutStyle">
+
+                <EditText
+                    android:id="@+id/creat_edt_introduce"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:fontFamily="@font/sofiapro_light"
+                    android:hint="Enter introduce job"
+                    android:inputType="textMultiLine"
+                    android:maxLines="10"
+                    android:padding="@dimen/dp_15"
+                    android:textSize="@dimen/sp_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/creat_text_company_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/creat_text_introduce"
+                android:layout_marginTop="@dimen/dp_10"
+                android:theme="@style/LoginTextInputLayoutStyle">
+
+                <EditText
+                    android:id="@+id/creat_edt_company_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:fontFamily="@font/sofiapro_light"
+                    android:hint="Enter company address"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:padding="@dimen/dp_15"
+                    android:textSize="@dimen/sp_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:fontFamily="@font/sofiapro_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time job"
+                android:layout_below="@+id/creat_text_company_address"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_15"/>
+            <Spinner
+                android:id="@+id/creat_spiner2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/creat_text_company_address"
+                android:layout_marginTop="@dimen/dp_15"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/creat_text_company_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/creat_spiner2"
+                android:layout_marginTop="@dimen/dp_10"
+                android:theme="@style/LoginTextInputLayoutStyle">
+
+                <EditText
+                    android:id="@+id/creat_edt_company_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:fontFamily="@font/sofiapro_light"
+                    android:hint="Enter company email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:padding="@dimen/dp_15"
+                    android:textSize="@dimen/sp_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/creat_text_some_company_infor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/creat_text_company_email"
+                android:layout_marginTop="@dimen/dp_10"
+                android:theme="@style/LoginTextInputLayoutStyle">
+
+                <EditText
+                    android:id="@+id/creat_edt_some_company_infor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:fontFamily="@font/sofiapro_light"
+                    android:hint="Enter some company information"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:padding="@dimen/dp_15"
+                    android:textSize="@dimen/sp_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/creat_text_infor_job"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/creat_text_some_company_infor"
+                android:layout_marginTop="@dimen/dp_10"
+                android:theme="@style/LoginTextInputLayoutStyle">
+
+                <EditText
+                    android:id="@+id/creat_edt_infor_job"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:fontFamily="@font/sofiapro_light"
+                    android:hint="Enter information job"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:padding="@dimen/dp_15"
+                    android:textSize="@dimen/sp_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:fontFamily="@font/sofiapro_light"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recruit time period"
+                android:layout_below="@+id/creat_text_infor_job"/>
+
+            <Spinner
+                android:layout_marginBottom="@dimen/dp_100"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/creat_text_infor_job"
+                android:id="@+id/creat_spiner"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

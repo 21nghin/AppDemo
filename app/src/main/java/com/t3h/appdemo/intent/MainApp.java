@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -64,8 +65,13 @@ public class MainApp extends AppCompatActivity {
             public void onClick(View view) {
                 if (appBar.getFabAlignmentMode() == BottomAppBar.FAB_ALIGNMENT_MODE_END) {
                     appBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+                    if (view.callOnClick()){
+                        startActivity(new Intent(MainApp.this,CreatNews.class));
+                    }
+
                 } else {
                     appBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
+                    return;
                 }
             }
         });
