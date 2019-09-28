@@ -103,7 +103,7 @@
 =======
 
 <!--TODO-->
-    <string name="tite_toolbar_news">Create new recruit</string>
+    <string name="tite_toolbar_news">Create job</string>
     <string name="edt_write_comment">Write comment...</string>
     <string name="title_detail_job">Detail job</string>
     <string name="item_saved">Saved</string>
@@ -112,7 +112,7 @@
     <string name="dialog_message_delete_detel">Do you want to delete this item?</string>
     <string name="message_yes">Yes</string>
     <string name="message_no">No</string>
-    <string name="recruitime_period">+ Recruitime period</string>
+    <string name="recruitime_period">+ Recrui time period</string>
     <string name="dialog_loading">Loading...</string>
     <string name="today">00/00/00</string>
 </resources>

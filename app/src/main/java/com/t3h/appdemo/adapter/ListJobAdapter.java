@@ -19,6 +19,7 @@ import com.t3h.appdemo.R;
 import com.t3h.appdemo.model.JobModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolder> {
     private LayoutInflater inflater;
@@ -86,6 +87,12 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         return data == null ? 0 : data.size();
     }
 
+    public void setFilter(List<JobModel>jobList){
+        data = new ArrayList<>();
+        data.addAll(jobList);
+        notifyDataSetChanged();
+    }
+
     public class RcvHolder extends RecyclerView.ViewHolder {
         private ImageView imageView, comment;
         private LinearLayout ln_item_comment;
@@ -117,10 +124,11 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
             Glide.with(imageView).load(item.getImage())
                     .skipMemoryCache(true)
                     .placeholder(R.drawable.media_img)
+                    .centerCrop()
                     .error(R.drawable.media_img)
                     .into(imageView);
             tvSattusJob.setText(item.getRecruiTime());
-//            date.setText(jobModel.getDate());
+            tvDate.setText(item.getDate());
 //            numberLike.setText(jobModel.getNumberLike());
 //            numberComment.setText(jobModel.getNumberComment());
 //            numberShare.setText(jobModel.getNumberShare());

@@ -3,6 +3,7 @@ package com.t3h.appdemo.intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Window;
 
 import com.t3h.appdemo.R;
 

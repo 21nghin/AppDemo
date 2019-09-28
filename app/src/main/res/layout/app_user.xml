@@ -45,7 +45,7 @@
                 android:id="@+id/user_load"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-    <include layout="@layout/app__content_user"/>
+    <include layout="@layout/app_content_user"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

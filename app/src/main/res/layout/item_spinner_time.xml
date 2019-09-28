@@ -3,5 +3,4 @@
     android:layout_height="wrap_content"
     android:textSize="@dimen/sp_16"
     android:fontFamily="@font/sofiapro_light"
-    android:textColor="#E91E63"
     android:gravity="left"/>

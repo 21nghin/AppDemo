@@ -9,46 +9,44 @@
     android:background="@color/white"
     tools:context=".intent.MainApp">
 
-
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/id_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:background="#9C27B0"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_height="wrap_content">
         <androidx.appcompat.widget.Toolbar
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:id="@+id/tool_chat"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"/>
-        <LinearLayout
-            android:layout_below="@+id/tool_chat"
-            android:id="@+id/ll_tab_lay_out"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/id_tablayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="#9C27B0"
+            app:tabIndicatorColor="@color/textMenuColor"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/textMenuColor"
+            app:tabTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/id_tablayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:tabIndicatorColor="@color/textMenuColor"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/textMenuColor"
-                app:tabTextColor="@color/colorMenu" />
+    <androidx.viewpager.widget.ViewPager
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/id_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/id_viewpager"
-                android:background="#BDBDBD"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <FrameLayout
-                    android:id="@+id/id_panel"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </androidx.viewpager.widget.ViewPager>
-        </LinearLayout>
-    </RelativeLayout>
+        <FrameLayout
+            android:id="@+id/id_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.bottomappbar.BottomAppBar
+        android:theme="@style/AppTheme"
         android:id="@+id/id_app_bar"
         style="@style/Widget.MaterialComponents.BottomAppBar"
         android:layout_width="match_parent"
@@ -63,10 +61,11 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/id_fab_add"
+        android:theme="@style/AppTheme"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:backgroundTint="@color/colorMenu"
         android:src="@drawable/ic_add_24dp"
         app:fabCustomSize="70dp"
-        app:layout_anchor="@id/id_app_bar" />
+        app:layout_anchor="@+id/id_app_bar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

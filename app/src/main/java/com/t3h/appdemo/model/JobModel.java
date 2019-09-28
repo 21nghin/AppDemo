@@ -14,14 +14,14 @@ public class JobModel {
     private String someCompanyInformation;
     private String infomationJob;
     private String recruiTime;
-//    private String date;
+    private String date;
 
     private String numberLike,numberComment,numberShare;
 
     public JobModel() {
     }
 
-    public JobModel(String image, String title, String introduceJob, String companyAddress, String jobTime, String companyEmail, String someCompanyInformation, String infomationJob, String recruiTime) {
+    public JobModel(String image, String title, String introduceJob, String companyAddress, String jobTime, String companyEmail, String someCompanyInformation, String infomationJob, String recruiTime, String date) {
         this.image = image;
         this.title = title;
         this.introduceJob = introduceJob;
@@ -31,7 +31,7 @@ public class JobModel {
         this.someCompanyInformation = someCompanyInformation;
         this.infomationJob = infomationJob;
         this.recruiTime = recruiTime;
-//        this.date = date;
+        this.date = date;
     }
 
     public String getImage() {
@@ -106,13 +106,13 @@ public class JobModel {
         this.recruiTime = recruiTime;
     }
 
-//    public String getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(String date) {
-//        this.date = date;
-//    }
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     @Exclude
     public String getId() {

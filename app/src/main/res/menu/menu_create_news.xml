@@ -5,7 +5,7 @@
     <item
         android:title="Update logo"
         android:id="@+id/item_create_logo"
-        android:icon="@drawable/ic_add_a_photo_black_24dp"
+        android:icon="@drawable/ic_photo_library_black_24dp"
         app:showAsAction="ifRoom"/>
 
     <item

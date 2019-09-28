@@ -21,11 +21,12 @@
                 <ImageView
                     android:id="@+id/detail_im_image"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_200"
+                    android:layout_height="@dimen/dp_250"
                     android:scaleType="fitXY"
                     android:src="@drawable/infotect_jobs" />
 
                 <TextView
+                    android:id="@+id/detail_tv_title"
                     android:padding="@dimen/dp_15"
                     android:layout_alignBottom="@+id/detail_im_image"
                     android:layout_width="match_parent"
@@ -122,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/company_email" />
                 <TextView
-                    android:id="@+id/detail_content_address"
+                    android:id="@+id/detail_tv_content_address"
                     android:textSize="@dimen/sp_16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -145,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/some_infor_compnay" />
                 <TextView
-                    android:id="@+id/detail_content_soe_infor"
+                    android:id="@+id/detail_tv_content_some_infor"
                     android:textSize="@dimen/sp_16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,7 +170,7 @@
                     android:text="@string/infor_job" />
                 <TextView
                     android:layout_marginBottom="@dimen/dp_10"
-                    android:id="@+id/detail_information"
+                    android:id="@+id/detail_tv_content_information"
                     android:textSize="@dimen/sp_16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -193,7 +194,7 @@
                     android:text="@string/recruitime_period" />
                 <TextView
                     android:layout_marginBottom="@dimen/dp_10"
-                    android:id="@+id/detail_recruitime"
+                    android:id="@+id/detail_tv_content_recrui_time"
                     android:textSize="@dimen/sp_16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -208,10 +209,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/today"
-                    android:layout_below="@+id/detail_recruitime"
+                    android:layout_below="@+id/detail_tv_content_recrui_time"
                     android:textSize="16sp"
                     android:fontFamily="sans-serif-light"
-                    android:id="@+id/detail_date"/>
+                    android:id="@+id/detail_tv_date"/>
             </RelativeLayout>
             <Button
                 android:textAllCaps="false"
@@ -222,7 +223,7 @@
                 android:textSize="@dimen/sp_20"
                 android:fontFamily="@font/sofiapro_medium"
                 android:padding="@dimen/dp_10"
-                android:id="@+id/btn_send_cv"
+                android:id="@+id/detail_btn_send_cv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/send_cv" />

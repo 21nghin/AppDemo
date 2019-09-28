@@ -35,9 +35,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="@color/colorXam"
-        app:layout_anchor="@+id/id_app_bar"/>
+        app:layout_anchor="@+id/id_detail_app_bar"/>
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/id_app_bar"
+        android:id="@+id/id_detail_app_bar"
         style="@style/Widget.MaterialComponents.BottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_comment"/>
             <ImageView
+                android:id="@+id/detail_im_comment"
                 android:layout_marginBottom="@dimen/dp_3"
                 android:layout_alignBottom="@+id/edt_comment"
                 android:layout_marginRight="@dimen/dp_5"

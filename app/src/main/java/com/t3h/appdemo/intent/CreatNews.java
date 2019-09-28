@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,7 +38,9 @@ import com.google.firebase.storage.UploadTask;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.model.JobModel;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
@@ -63,12 +66,13 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     private StorageReference storageReference;
     private FirebaseStorage firebaseStorage;
     private Uri uri;
+    private Calendar calendar;
 
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);;
         setContentView(R.layout.fragment_creat_news);
 
         initFirebase();
@@ -77,6 +81,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     }
 
     private void initFirebase() {
+        calendar = Calendar.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference("Logo");
         databaseReference = FirebaseDatabase.getInstance().getReference("JobModel");
@@ -177,6 +182,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
         final String infomationJob = edtInfomationJob.getText().toString();
         final String recruitTime = spinnerCheckRecruitment.getSelectedItem().toString();
         final String jobTime = spinnerCheckTime.getSelectedItem().toString();
+        final String dateNow = DateFormat.getDateInstance().format(calendar.getTime());
 
         if (introduceJob.isEmpty()){
             textIntroduceJob.setError("enter information job!");
@@ -212,7 +218,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String url = uri.toString();
-                                    JobModel job = new JobModel(url,tile,introduceJob,companyAddress,jobTime,companyEmail,someCompanyInformation,infomationJob,recruitTime);
+                                    JobModel job = new JobModel(url,tile,introduceJob,companyAddress,jobTime,companyEmail,someCompanyInformation,infomationJob,recruitTime,dateNow);
                                     String jobId = databaseReference.push().getKey();
                                     databaseReference.child(jobId).setValue(job);
                                 }

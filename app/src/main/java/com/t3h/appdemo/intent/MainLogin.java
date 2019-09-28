@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.Window;
 
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.fragment.LoginFragment;
@@ -38,7 +39,7 @@ public class MainLogin extends AppCompatActivity {
         transaction.add(R.id.id_panel,login);
         transaction.add(R.id.id_panel,register);
         transaction.commit();
-    }
+}
 
     public LoginFragment getLogin() {
         return login;

@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,18 +20,23 @@ import android.view.View;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.adapter.AppAdapter;
+import com.t3h.appdemo.adapter.ListJobAdapter;
 import com.t3h.appdemo.fragment.BottomDialogFragment;
 import com.t3h.appdemo.fragment.NewsFragment;
 import com.t3h.appdemo.fragment.NotificationFragment;
 import com.t3h.appdemo.fragment.SavedFragment;
+import com.t3h.appdemo.model.JobModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainApp extends AppCompatActivity {
 
     private BottomAppBar appBar;
     private FloatingActionButton fabAdd;
+    private Toolbar toolChat;
 
     private TabLayout tabApp;
     private ViewPager pagerApp;
@@ -42,23 +45,32 @@ public class MainApp extends AppCompatActivity {
     private NotificationFragment notification = new NotificationFragment();
     private AppAdapter appAdapter;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private ArrayList<JobModel> data;
+    private ListJobAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.main_app);
 
         setUpAppView();
         setUpAppBar();
+//        setUpDatasearch();
     }
+//
+//    private void setUpDatasearch() {
+//        data = new ArrayList<>();
+//        adapter = new ListJobAdapter(this);
+//        adapter.setData(data);
+//    }
 
 
     private void setUpAppBar() {
+        toolChat = findViewById(R.id.tool_chat);
         appBar = findViewById(R.id.id_app_bar);
         fabAdd = findViewById(R.id.id_fab_add);
 
-        setSupportActionBar(appBar);
+        setSupportActionBar(toolChat);
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +87,7 @@ public class MainApp extends AppCompatActivity {
                 }
             }
         });
+
         appBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,11 +95,13 @@ public class MainApp extends AppCompatActivity {
                 dialogFragment.show(getSupportFragmentManager(),"Đoạn hội thoại cuối cùng");
             }
         });
+
         appBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.id_search:
+
                         break;
                 }
                 return false;
@@ -109,40 +124,58 @@ public class MainApp extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_app_bar, menu);
-        MenuItem searchItem = menu.findItem(R.id.id_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
+        final MenuItem searchItem = menu.findItem(R.id.id_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                if (!searchView.isIconified()){
+//                    searchView.setIconified(true);
+//                }
+//                searchItem.collapseActionView();
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                List<JobModel> jobList = searchJob(data,newText);
+//                adapter.setFilter(jobList);
+//                return false;
+//            }
+//        });
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean b = true;
-                if (b){
                     fabAdd.hide();
-                    return;
-                }
             }
         });
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                boolean b = true;
-                if (b){
                     fabAdd.hide();
-                }
                 return true; // KEEP IT TO TRUE OR IT DOESN'T OPEN !!
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                boolean b = true;
-                if (b){
                     fabAdd.show();
-                }
                 return true; // OR FALSE IF YOU DIDN'T WANT IT TO CLOSE!
             }
         });
-        
+
         return true;
+    }
+
+    private List<JobModel> searchJob(List<JobModel> pl, String query){
+        query = query.toLowerCase();
+        List<JobModel> jobList = new ArrayList<>();
+        for (JobModel job : pl) {
+            String text = job.getTitle().toLowerCase();
+            if (text.startsWith(query)){
+                jobList.add(job);
+            }
+        }
+        return jobList;
     }
 
 }
