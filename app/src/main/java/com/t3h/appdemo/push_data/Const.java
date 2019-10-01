@@ -11,4 +11,6 @@ public class Const {
     public static final String INFOMATION_JOB_KEY = "INFOMATION_JOB_KEY";
     public static final String RECRUI_TIME_KEY = "RECRUI_TIME_KEY";
     public static final String DATE_NOW_KEY = "DATE_NOW_KEY";
+    public static final String NAME_USER_KEY = "NAME_USER_KEY";
+    public static final String IMAGE_USER_KEY = "IMAGE_USER_KEY";
 }

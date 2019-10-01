@@ -23,11 +23,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.t3h.appdemo.intent.MainLogin;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.model.User;
+
+import java.util.HashMap;
 
 import es.dmoral.toasty.Toasty;
 
@@ -46,9 +49,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private Button btnRegister;
     private TextView tvLogin;
 
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase mDatabase;
-
+    private FirebaseAuth fireAuth;
+    private DatabaseReference dataRef;
     private ProgressDialog progressDialog;
 
     @Nullable
@@ -62,10 +64,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
-
+        initFirebase();
         initView();
+    }
+
+    private void initFirebase() {
+        fireAuth = FirebaseAuth.getInstance();
     }
 
     private void initView() {
@@ -137,19 +141,36 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 progressDialog.setMessage("Loading...");
                 progressDialog.show();
                 progressDialog.setCancelable(false);
-                mAuth.createUserWithEmailAndPassword(email,passwrod)
+                fireAuth.createUserWithEmailAndPassword(email,passwrod)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
-                                    DatabaseReference reference = mDatabase.getReference("User");
-                                    User user = new User(name,email,passwrod);
-                                    reference.child(mAuth.getUid()).setValue(user);
-                                    Toasty.success(getContext(), getString(R.string.register_success), Toasty.LENGTH_SHORT).show();
-                                    progressDialog.dismiss();
-                                    MainLogin activityLogin = (MainLogin) getActivity();
-                                    activityLogin.showFragment(activityLogin.getLogin());
-                                    activityLogin.getLogin().setData(email, passwrod);
+                                    FirebaseUser fireUser = fireAuth.getCurrentUser();
+                                    assert fireUser !=null;
+                                    String userid = fireUser.getUid();
+
+                                    dataRef = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+                                    HashMap<String,String>hashMap = new HashMap<>();
+                                    hashMap.put("id",userid);
+                                    hashMap.put("name",name);
+                                    hashMap.put("email",email);
+                                    hashMap.put("imageUrl","default");
+                                    hashMap.put("password",passwrod);
+                                    hashMap.put("status","offline");
+                                    hashMap.put("search",name.toLowerCase());
+                                    dataRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()){
+                                                Toasty.success(getContext(), getString(R.string.register_success), Toasty.LENGTH_SHORT).show();
+                                                progressDialog.dismiss();
+                                                MainLogin activityLogin = (MainLogin) getActivity();
+                                                activityLogin.showFragment(activityLogin.getLogin());
+                                                activityLogin.getLogin().setData(email, passwrod);
+                                            }
+                                        }
+                                    });
                                 }else {
                                     Toasty.error(getContext(), getString(R.string.register_failed), Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();

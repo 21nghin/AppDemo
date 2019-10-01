@@ -18,4 +18,5 @@
     <color name="colorPurple">#983CFF</color>
     <color name="colorBlue">#3E55D8</color>
     <color name="noBackgroud">@android:color/transparent</color>
+    <color name="colorGraay">#16D31D</color>
 </resources>

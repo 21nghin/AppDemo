@@ -68,13 +68,6 @@ public class DetailNewsApp extends AppCompatActivity implements View.OnClickList
     private Toolbar toolbar;
     private AlertDialog.Builder mDialog;
 
-    private DatabaseReference databaseReference;
-    private FirebaseDatabase firebaseDatabase;
-    private StorageReference storageReference;
-    private FirebaseStorage firebaseStorage;
-
-    private JobModel job;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +113,6 @@ public class DetailNewsApp extends AppCompatActivity implements View.OnClickList
 
     private void initData() {
         adapter = new CmtAdapter(this);
-
         adapter.setData(data);
     }
 

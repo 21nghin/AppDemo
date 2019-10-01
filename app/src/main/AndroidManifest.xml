@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.t3h.appdemo">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".intent.CreatNews"/>
+        <activity android:name=".intent.MessageApp"></activity>
+        <activity android:name=".intent.CreatNews" />
         <activity android:name=".intent.ChatApp" />
         <activity android:name=".intent.CVApp" />
         <activity
@@ -21,7 +20,7 @@
         <activity android:name=".intent.UserApp" />
         <activity android:name=".intent.ProfileApp" />
         <activity android:name=".intent.PasswordApp" />
-        <activity android:name=".intent.DetailNewsApp"/>
+        <activity android:name=".intent.DetailNewsApp" />
         <activity android:name=".intent.MainApp" />
         <activity android:name=".intent.MainLogin">
             <intent-filter>
@@ -31,5 +30,9 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.t3h.appdemo.intent;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -163,6 +165,16 @@ public class MainApp extends AppCompatActivity {
             }
         });
 
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_main_message:
+                startActivity(new Intent(getApplicationContext(),ChatApp.class));
+                break;
+        }
         return true;
     }
 

@@ -59,7 +59,7 @@ public class UserApp extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void getDataFirebase() {
-        DatabaseReference mReference = mDatabase.getReference("User");
+        DatabaseReference mReference = mDatabase.getReference("Users");
         mReference.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -67,7 +67,7 @@ public class UserApp extends AppCompatActivity implements View.OnClickListener {
                 tvName.setText(user.getName());
                 tvEmail.setText(user.getEmail());
                 ctlName.setTitle(user.getName());
-                Glide.with(UserApp.this).load(user.getImage())
+                Glide.with(getApplicationContext()).load(user.getImageUrl())
                         .skipMemoryCache(true)
                         .centerCrop()
                         .into(imImage);

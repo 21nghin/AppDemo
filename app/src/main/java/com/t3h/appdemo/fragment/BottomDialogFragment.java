@@ -80,7 +80,7 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
         super.onActivityCreated(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
-        reference = mDatabase.getReference("User").child(mAuth.getUid());
+        reference = mDatabase.getReference("Users").child(mAuth.getUid());
         reference.addValueEventListener(this);
 
     }
@@ -174,6 +174,9 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
     public void onDestroy() {
         super.onDestroy();
         reference.removeEventListener(this);
+        if ( progressDialog!=null && progressDialog.isShowing() ){
+            progressDialog.cancel();
+        }
     }
 
     @Override
@@ -181,7 +184,7 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
         User user = dataSnapshot.getValue(User.class);
         tvEmail.setText(user.getEmail());
         tvName.setText(user.getName());
-        Glide.with(getActivity()).load(user.getImage())
+        Glide.with(getActivity()).load(user.getImageUrl())
                 .skipMemoryCache(true)
                 .error(R.drawable.ic_account_circle_black_24dp)
                 .placeholder(R.drawable.ic_account_circle_black_24dp)

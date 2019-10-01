@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:padding="@dimen/dp_10"
+    android:layout_height="wrap_content">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_70"
+        android:src="@drawable/ic_account_circle"
+        android:id="@+id/civ_item_avatar_chat_horizontal"/>
+        <TextView
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/civ_item_avatar_chat_horizontal"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:text="Name chat"
+            android:textSize="16sp"
+            android:id="@+id/tv_item_name_chat_horizontal"/>
+</RelativeLayout>
