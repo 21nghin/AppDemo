@@ -161,7 +161,7 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         getActivity().finish();
-        startActivity(new Intent(getContext(), MainLogin.class));
+        startActivity(new Intent(getContext(), MainLogin.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
 

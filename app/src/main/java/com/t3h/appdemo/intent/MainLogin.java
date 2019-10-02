@@ -7,9 +7,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.fragment.LoginFragment;
 import com.t3h.appdemo.fragment.RegisterFragment;
+
+import java.util.HashMap;
 
 public class MainLogin extends AppCompatActivity {
 

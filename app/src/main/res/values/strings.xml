@@ -116,4 +116,6 @@
     <string name="dialog_loading">Loading...</string>
     <string name="today">00/00/00</string>
     <string name="edt_chat_message">Enter the message...</string>
+    <string name="user_online">online</string>
+    <string name="user_offline">offline</string>
 </resources>

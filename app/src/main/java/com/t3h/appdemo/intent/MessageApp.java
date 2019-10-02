@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.t3h.appdemo.R;
+import com.t3h.appdemo.adapter.ChatAdapter;
 import com.t3h.appdemo.adapter.MessageAdapter;
 import com.t3h.appdemo.model.Message;
 import com.t3h.appdemo.model.User;
@@ -72,7 +73,8 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
     }
 
     private void loadDataUser() {
-        id = getIntent().getStringExtra("userid");
+        Intent intent = getIntent();
+        id = intent.getStringExtra("userid");
         fireAuth = FirebaseAuth.getInstance();
         dataRef = FirebaseDatabase.getInstance().getReference("Users").child(id);
 
@@ -107,7 +109,7 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
         toolbarMessage.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                startActivity(new Intent(MessageApp.this,ChatApp.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 
@@ -163,6 +165,22 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
         reference.child("Chat").push().setValue(hashMap);
+
+        //add user to chat
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist").child(fireUser.getUid()).child(id);
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()){
+                    chatRef.child("id").setValue(id);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void readDataMessage(final String myid, final String userid, final String imageUrl) {
@@ -189,5 +207,25 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
 
             }
         });
+    }
+
+    private void status(String status){
+        fireUser = FirebaseAuth.getInstance().getCurrentUser();
+        dataRef = FirebaseDatabase.getInstance().getReference("Users").child(fireUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        dataRef.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status(getString(R.string.user_online));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status(getString(R.string.user_offline));
     }
 }

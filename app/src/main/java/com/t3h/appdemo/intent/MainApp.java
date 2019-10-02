@@ -22,6 +22,10 @@ import android.widget.Toast;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.adapter.AppAdapter;
 import com.t3h.appdemo.adapter.ListJobAdapter;
@@ -32,9 +36,13 @@ import com.t3h.appdemo.fragment.SavedFragment;
 import com.t3h.appdemo.model.JobModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainApp extends AppCompatActivity {
+
+    private DatabaseReference dataRef;
+    private FirebaseUser fireUser;
 
     private BottomAppBar appBar;
     private FloatingActionButton fabAdd;
@@ -188,6 +196,26 @@ public class MainApp extends AppCompatActivity {
             }
         }
         return jobList;
+    }
+
+    private void status(String status){
+        fireUser = FirebaseAuth.getInstance().getCurrentUser();
+        dataRef = FirebaseDatabase.getInstance().getReference("Users").child(fireUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        dataRef.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status(getString(R.string.user_online));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status(getString(R.string.user_offline));
     }
 
 }

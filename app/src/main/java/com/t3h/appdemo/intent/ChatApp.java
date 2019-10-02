@@ -22,22 +22,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.adapter.ChatAdapter;
+import com.t3h.appdemo.model.ChatList;
+import com.t3h.appdemo.model.Message;
 import com.t3h.appdemo.model.User;
 import com.t3h.appdemo.push_data.Const;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatApp extends AppCompatActivity implements View.OnClickListener, ChatAdapter.ItemListener {
+public class ChatApp extends AppCompatActivity implements View.OnClickListener{
 
     private CircleImageView civAvatarChat;
     private TextView tvNotify;
     private RecyclerView lvChatHorizontal;
+    private RecyclerView lvHaveMessage;
 
     private FirebaseUser mUser;
     private DatabaseReference mDataRef;
     private ValueEventListener mDBListener;
+
+    private List<ChatList> chatList;
 
     private ArrayList<User> mData;
     private ChatAdapter adapter;
@@ -50,11 +57,76 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener, 
         initViews();
         initFirebase();
         getData();
-        setUpRecyclerViewHorizontal();
         getDataLvChatHorizontal();
+        setUPRecyclerViewHaveMessage();
     }
 
+    private void setUPRecyclerViewHaveMessage() {
+        lvHaveMessage.setHasFixedSize(true);
+        lvHaveMessage.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        chatList = new ArrayList<>();
+
+        mDataRef = FirebaseDatabase.getInstance().getReference("Chatlist").child(mUser.getUid());
+        mDataRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                chatList.clear();
+                for (DataSnapshot pullDataSnapshot:dataSnapshot.getChildren()) {
+                    ChatList list = pullDataSnapshot.getValue(ChatList.class);
+                    chatList.add(list);
+                }
+
+                loadChatList();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+    private void loadChatList() {
+        mData = new ArrayList<>();
+        mDataRef = FirebaseDatabase.getInstance().getReference("Users");
+        mDataRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mData.clear();
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    for (ChatList list : chatList){
+                        if (user.getId().equals(list.getId())){
+                            mData.add(user);
+                        }
+                    }
+                }
+                adapter = new ChatAdapter(ChatApp.this,mData,true);
+                lvHaveMessage.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+
     private void getDataLvChatHorizontal() {
+        lvChatHorizontal.setHasFixedSize(true);
+        LinearLayoutManager lvHorizontal = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        lvChatHorizontal.setLayoutManager(lvHorizontal);
+
+        mData = new ArrayList<>();
+        adapter = new ChatAdapter(getApplicationContext(), mData,false);
+        lvChatHorizontal.setAdapter(adapter);
+
         mDataRef = FirebaseDatabase.getInstance().getReference("Users");
         mDBListener = mDataRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -80,15 +152,10 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener, 
         });
     }
 
-    private void setUpRecyclerViewHorizontal() {
-        lvChatHorizontal.setHasFixedSize(true);
-        LinearLayoutManager lvHorizontal = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        lvChatHorizontal.setLayoutManager(lvHorizontal);
-        mData = new ArrayList<>();
-        adapter = new ChatAdapter(getApplicationContext(), mData);
-        adapter.setListener(this);
-        lvChatHorizontal.setAdapter(adapter);
-    }
+
+
+
+
 
     private void initFirebase() {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -118,7 +185,9 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener, 
     private void initViews() {
         civAvatarChat = findViewById(R.id.civ_avatar_chat);
         tvNotify = findViewById(R.id.tv_notify);
+        lvHaveMessage = findViewById(R.id.lv_have_message);
         lvChatHorizontal = findViewById(R.id.lv_chat_horizontal);
+
         civAvatarChat.setOnClickListener(this);
     }
 
@@ -131,12 +200,24 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
+    private void status(String status){
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDataRef = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        mDataRef.updateChildren(hashMap);
+    }
+
     @Override
-    public void ItemOnclickListener(int position) {
-        User user = mData.get(position);
-        Intent intent = new Intent(this, MessageApp.class);
-        intent.putExtra("userid", user.getId());
-        startActivity(intent);
+    protected void onResume() {
+        super.onResume();
+        status(getString(R.string.user_online));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status(getString(R.string.user_offline));
     }
 
     @Override

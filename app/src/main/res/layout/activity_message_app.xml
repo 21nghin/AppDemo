@@ -35,6 +35,7 @@
                     android:layout_alignBottom="@+id/civ_avatar_message"
                     android:layout_alignRight="@+id/civ_avatar_message" />
                 <ImageView
+                    android:id="@+id/online_icon"
                     android:layout_marginRight="@dimen/dp_2"
                     android:layout_marginBottom="@dimen/dp_2"
                     android:layout_alignBottom="@+id/civ_avatar_message"
@@ -43,6 +44,18 @@
                     android:layout_height="@dimen/dp_18"
                     android:background="@drawable/shape_onlie"
                     android:layout_alignRight="@+id/civ_avatar_message" />
+
+                <ImageView
+                    android:visibility="invisible"
+                    android:id="@+id/offline_icon"
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:layout_alignRight="@+id/civ_avatar_message"
+                    android:layout_alignBottom="@+id/civ_avatar_message"
+                    android:layout_marginRight="@dimen/dp_2"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:background="@drawable/shape_offline"
+                    android:textColor="@color/white" />
                 <RelativeLayout
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp_10"
