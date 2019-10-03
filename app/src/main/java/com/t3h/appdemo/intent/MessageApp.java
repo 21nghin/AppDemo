@@ -21,12 +21,19 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.adapter.ChatAdapter;
 import com.t3h.appdemo.adapter.MessageAdapter;
+import com.t3h.appdemo.api.ApiService;
 import com.t3h.appdemo.model.Message;
 import com.t3h.appdemo.model.User;
+import com.t3h.appdemo.notification.Client;
+import com.t3h.appdemo.notification.Data;
+import com.t3h.appdemo.notification.MyResponse;
+import com.t3h.appdemo.notification.Sender;
+import com.t3h.appdemo.notification.Token;
 import com.t3h.appdemo.push_data.Const;
 
 import java.util.ArrayList;
@@ -34,6 +41,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MessageApp extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,12 +65,16 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
 
     private String id;
 
+    private ApiService api;
+    private boolean notify = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_app);
 
         initViews();
+        api = Client.getClient("https://fcm.googleapis.com/").create(ApiService.class);
         loadDataUser();
         setUpRecyclerViewMessage();
     }
@@ -109,7 +123,7 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
         toolbarMessage.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MessageApp.this,ChatApp.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(MessageApp.this, ChatApp.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 
@@ -133,6 +147,7 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.item_message_chat:
+                notify = true;
                 fireUser = FirebaseAuth.getInstance().getCurrentUser();
                 String msg = edtChat.getText().toString();
                 if (!msg.equals("")) {
@@ -157,7 +172,7 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    private void sendMessage(String sender, String receiver, String message) {
+    private void sendMessage(String sender, final String receiver, String message) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -171,8 +186,61 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
         chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()){
+                if (!dataSnapshot.exists()) {
                     chatRef.child("id").setValue(id);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        final String msg = message;
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (notify) {
+                    sendNotification(receiver, user.getName(), msg);
+                }
+                notify = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void sendNotification(String receiver, final String name, final String msg) {
+        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = tokens.orderByKey().equalTo(receiver);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Token token = snapshot.getValue(Token.class);
+                    Data data = new Data(fireUser.getUid(), R.drawable.im_account, name + ": " + msg, "New message", id);
+                    Sender sender = new Sender(data, token.getToken());
+                    api.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if (response.code() == 200) {
+                                        if (response.body().success != 1) {
+                                            message("Failed");
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                                }
+                            });
                 }
             }
 
@@ -209,11 +277,11 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
         });
     }
 
-    private void status(String status){
+    private void status(String status) {
         fireUser = FirebaseAuth.getInstance().getCurrentUser();
         dataRef = FirebaseDatabase.getInstance().getReference("Users").child(fireUser.getUid());
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status",status);
+        hashMap.put("status", status);
         dataRef.updateChildren(hashMap);
     }
 

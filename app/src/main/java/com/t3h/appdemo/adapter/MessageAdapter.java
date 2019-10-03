@@ -35,6 +35,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         this.imageUrl = imageUrl;
     }
 
+
     @NonNull
     @Override
     public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -78,6 +79,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
                     .centerCrop()
                     .into(imImage);
         }
+
     }
 
     @Override
@@ -89,4 +91,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
             return MSG_TYPE_LEFT;
         }
     }
+
+
 }

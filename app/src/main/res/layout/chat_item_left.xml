@@ -5,6 +5,7 @@
     android:layout_marginLeft="@dimen/dp_10"
     android:layout_height="wrap_content">
     <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_centerVertical="true"
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50"
         android:src="@drawable/kim_jisoo_kr"

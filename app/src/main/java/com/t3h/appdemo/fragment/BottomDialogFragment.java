@@ -22,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,9 +35,14 @@ import com.t3h.appdemo.R;
 import com.t3h.appdemo.intent.UserApp;
 import com.t3h.appdemo.model.User;
 
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BottomDialogFragment extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, ValueEventListener {
+
+    private DatabaseReference dataRef;
+    private FirebaseUser fireUser;
 
     private ImageView imClose;
     private NavigationView navigationView;
@@ -196,4 +202,5 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
     public void onCancelled(@NonNull DatabaseError databaseError) {
         Toast.makeText(getContext(), databaseError.getCode(), Toast.LENGTH_SHORT).show();
     }
+
 }

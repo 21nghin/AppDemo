@@ -1,8 +1,7 @@
 package com.t3h.appdemo.intent;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.SearchView;
@@ -12,16 +11,15 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -36,13 +34,11 @@ import com.t3h.appdemo.fragment.SavedFragment;
 import com.t3h.appdemo.model.JobModel;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class MainApp extends AppCompatActivity {
-
-    private DatabaseReference dataRef;
-    private FirebaseUser fireUser;
 
     private BottomAppBar appBar;
     private FloatingActionButton fabAdd;
@@ -57,6 +53,9 @@ public class MainApp extends AppCompatActivity {
 
     private ArrayList<JobModel> data;
     private ListJobAdapter adapter;
+
+//    private FirebaseUser mUser;
+//    private DatabaseReference mDataRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,24 +197,23 @@ public class MainApp extends AppCompatActivity {
         return jobList;
     }
 
-    private void status(String status){
-        fireUser = FirebaseAuth.getInstance().getCurrentUser();
-        dataRef = FirebaseDatabase.getInstance().getReference("Users").child(fireUser.getUid());
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status",status);
-        dataRef.updateChildren(hashMap);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        status(getString(R.string.user_online));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        status(getString(R.string.user_offline));
-    }
-
+//    private void status(String status) {
+//        mUser = FirebaseAuth.getInstance().getCurrentUser();
+//        mDataRef = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("status", status);
+//        mDataRef.updateChildren(hashMap);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        status(getString(R.string.user_online));
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        status(getString(R.string.user_offline));
+//    }
 }

@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,12 +22,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.t3h.appdemo.R;
+import com.t3h.appdemo.adapter.Chat2Adapter;
 import com.t3h.appdemo.adapter.ChatAdapter;
 import com.t3h.appdemo.model.ChatList;
 import com.t3h.appdemo.model.Message;
 import com.t3h.appdemo.model.User;
+import com.t3h.appdemo.notification.Token;
 import com.t3h.appdemo.push_data.Const;
 
 import java.util.ArrayList;
@@ -33,12 +40,13 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatApp extends AppCompatActivity implements View.OnClickListener{
+public class ChatApp extends AppCompatActivity implements View.OnClickListener {
 
     private CircleImageView civAvatarChat;
     private TextView tvNotify;
     private RecyclerView lvChatHorizontal;
     private RecyclerView lvHaveMessage;
+    private EditText edtSearchChat;
 
     private FirebaseUser mUser;
     private DatabaseReference mDataRef;
@@ -48,6 +56,8 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
 
     private ArrayList<User> mData;
     private ChatAdapter adapter;
+    //TODO
+    private Chat2Adapter adapter2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +65,60 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.app_chat);
 
         initViews();
+        loadSearchChatUser();
         initFirebase();
         getData();
         getDataLvChatHorizontal();
         setUPRecyclerViewHaveMessage();
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+    }
+
+    private void loadSearchChatUser() {
+        edtSearchChat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchUsers(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    private void searchUsers(String s) {
+        final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
+        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("search")
+                .startAt(s)
+                .endAt(s + "\uf8ff");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mData.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    assert user != null;
+                    assert fireUser != null;
+                    if (!user.getId().equals(fireUser.getUid())) {
+                        mData.add(user);
+                    }
+                }
+
+                adapter = new ChatAdapter(ChatApp.this, mData, true);
+                lvChatHorizontal.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setUPRecyclerViewHaveMessage() {
@@ -73,7 +133,7 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chatList.clear();
-                for (DataSnapshot pullDataSnapshot:dataSnapshot.getChildren()) {
+                for (DataSnapshot pullDataSnapshot : dataSnapshot.getChildren()) {
                     ChatList list = pullDataSnapshot.getValue(ChatList.class);
                     chatList.add(list);
                 }
@@ -89,6 +149,12 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    private void updateToken(String token){
+        DatabaseReference dataRefToken = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token tk = new Token(token);
+        dataRefToken.child(mUser.getUid()).setValue(tk);
+    }
+
 
     private void loadChatList() {
         mData = new ArrayList<>();
@@ -97,16 +163,16 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mData.clear();
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    for (ChatList list : chatList){
-                        if (user.getId().equals(list.getId())){
+                    for (ChatList list : chatList) {
+                        if (user.getId().equals(list.getId())) {
                             mData.add(user);
                         }
                     }
                 }
-                adapter = new ChatAdapter(ChatApp.this,mData,true);
-                lvHaveMessage.setAdapter(adapter);
+                adapter2 = new Chat2Adapter(ChatApp.this, mData, true);
+                lvHaveMessage.setAdapter(adapter2);
             }
 
             @Override
@@ -115,8 +181,6 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
             }
         });
     }
-
-
 
     private void getDataLvChatHorizontal() {
         lvChatHorizontal.setHasFixedSize(true);
@@ -124,25 +188,27 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
         lvChatHorizontal.setLayoutManager(lvHorizontal);
 
         mData = new ArrayList<>();
-        adapter = new ChatAdapter(getApplicationContext(), mData,false);
+        adapter = new ChatAdapter(getApplicationContext(), mData, true);
         lvChatHorizontal.setAdapter(adapter);
 
         mDataRef = FirebaseDatabase.getInstance().getReference("Users");
         mDBListener = mDataRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mData.clear();
+                if (edtSearchChat.getText().toString().equals("")) {
+                    mData.clear();
 
-                for (DataSnapshot pull : dataSnapshot.getChildren()) {
-                    User user = pull.getValue(User.class);
-                    assert user != null;
-                    assert mUser != null;
-                    if (!user.getEmail().equals(mUser.getEmail())) {
-                        mData.add(user);
+                    for (DataSnapshot pull : dataSnapshot.getChildren()) {
+                        User user = pull.getValue(User.class);
+                        assert user != null;
+                        assert mUser != null;
+                        if (!user.getEmail().equals(mUser.getEmail())) {
+                            mData.add(user);
+                        }
                     }
-                }
 
-                adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -151,10 +217,6 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
             }
         });
     }
-
-
-
-
 
 
     private void initFirebase() {
@@ -183,6 +245,7 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void initViews() {
+        edtSearchChat = findViewById(R.id.search_chat);
         civAvatarChat = findViewById(R.id.civ_avatar_chat);
         tvNotify = findViewById(R.id.tv_notify);
         lvHaveMessage = findViewById(R.id.lv_have_message);
@@ -200,11 +263,11 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    private void status(String status){
+    private void status(String status) {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mDataRef = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status",status);
+        hashMap.put("status", status);
         mDataRef.updateChildren(hashMap);
     }
 

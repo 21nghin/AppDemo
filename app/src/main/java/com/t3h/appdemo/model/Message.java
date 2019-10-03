@@ -38,4 +38,5 @@ public class Message {
     public void setReceiver(String receiver) {
         this.receiver = receiver;
     }
+
 }

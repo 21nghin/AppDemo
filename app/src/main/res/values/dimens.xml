@@ -41,4 +41,6 @@
     <dimen name="dp_18">18dp</dimen>
     <dimen name="dp_300">300dp</dimen>
     <dimen name="dp_4">4dp</dimen>
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="dp_19">19dp</dimen>
 </resources>
