@@ -25,6 +25,8 @@
                     android:src="@drawable/image_view"
                     android:id="@+id/civ_avatar_chat"/>
                 <ImageView
+                    android:visibility="invisible"
+                    android:id="@+id/im_notification"
                     android:textColor="@color/white"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -40,6 +42,7 @@
                     android:layout_alignRight="@id/civ_avatar_chat"
                     android:background="@drawable/text_shape_2"
                     android:id="@+id/tv_notify"
+                    android:visibility="invisible"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"/>
                 <TextView

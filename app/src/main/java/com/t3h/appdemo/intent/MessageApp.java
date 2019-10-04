@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,7 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MessageApp extends AppCompatActivity implements View.OnClickListener {
+public class MessageApp extends AppCompatActivity implements View.OnClickListener, TextWatcher, View.OnKeyListener {
 
     private CircleImageView civImage;
     private TextView tvName;
@@ -53,6 +56,8 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
     private EditText edtChat;
     private ImageView imSend;
     private ImageView imLike;
+    private ImageView imOnlile;
+    private ImageView imOffline;
     private Toolbar toolbarMessage;
     private RecyclerView lvMessage;
 
@@ -64,6 +69,7 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
     private DatabaseReference dataRef;
 
     private String id;
+//    private String status;
 
     private ApiService api;
     private boolean notify = false;
@@ -89,6 +95,8 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
     private void loadDataUser() {
         Intent intent = getIntent();
         id = intent.getStringExtra("userid");
+//        status = intent.getStringExtra("status");
+
         fireAuth = FirebaseAuth.getInstance();
         dataRef = FirebaseDatabase.getInstance().getReference("Users").child(id);
 
@@ -105,6 +113,15 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
                         .into(civImage);
 
                 readDataMessage(fireAuth.getUid(), id, user.getImageUrl());
+                if (user.getStatus().equals("online")) {
+                    tvOnlineOrOffline.setText("Đang hoạt động");
+                    imOffline.setVisibility(View.VISIBLE);
+                    imOnlile.setVisibility(View.VISIBLE);
+                } else {
+                    tvOnlineOrOffline.setText("Không hoạt động");
+                    imOffline.setVisibility(View.INVISIBLE);
+                    imOnlile.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
@@ -133,14 +150,18 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
         edtChat = findViewById(R.id.edt_chat_message);
         imSend = findViewById(R.id.item_message_chat);
         imLike = findViewById(R.id.item_message_like);
+        imOnlile = findViewById(R.id.im_online_message);
+        imOffline = findViewById(R.id.im_display_message);
         lvMessage = findViewById(R.id.lv_message);
 
         imLike.setVisibility(View.VISIBLE);
         imSend.setVisibility(View.INVISIBLE);
 
+        edtChat.addTextChangedListener(this);
+        edtChat.setOnKeyListener(this);
+
         imLike.setOnClickListener(this);
         imSend.setOnClickListener(this);
-        edtChat.setOnClickListener(this);
     }
 
     @Override
@@ -157,10 +178,6 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
                 }
                 edtChat.setText("");
 
-                break;
-            case R.id.edt_chat_message:
-                imSend.setVisibility(View.VISIBLE);
-                imLike.setVisibility(View.INVISIBLE);
                 break;
             case R.id.item_message_like:
                 message("Chat");
@@ -295,5 +312,30 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
     protected void onPause() {
         super.onPause();
         status(getString(R.string.user_offline));
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        imSend.setVisibility(View.VISIBLE);
+        imLike.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
+    }
+
+    @Override
+    public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+        if (keyCode == KeyEvent.KEYCODE_DEL) {
+            imLike.setVisibility(View.VISIBLE);
+            imSend.setVisibility(View.INVISIBLE);
+        }
+        return false;
     }
 }

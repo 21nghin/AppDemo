@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,10 +44,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatApp extends AppCompatActivity implements View.OnClickListener {
 
     private CircleImageView civAvatarChat;
-    private TextView tvNotify;
+//    private TextView tvNotify;
     private RecyclerView lvChatHorizontal;
     private RecyclerView lvHaveMessage;
     private EditText edtSearchChat;
+//    private ImageView imNotification;
 
     private FirebaseUser mUser;
     private DatabaseReference mDataRef;
@@ -247,7 +249,8 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
     private void initViews() {
         edtSearchChat = findViewById(R.id.search_chat);
         civAvatarChat = findViewById(R.id.civ_avatar_chat);
-        tvNotify = findViewById(R.id.tv_notify);
+//        tvNotify = findViewById(R.id.tv_notify);
+//        imNotification = findViewById(R.id.im_notification);
         lvHaveMessage = findViewById(R.id.lv_have_message);
         lvChatHorizontal = findViewById(R.id.lv_chat_horizontal);
 

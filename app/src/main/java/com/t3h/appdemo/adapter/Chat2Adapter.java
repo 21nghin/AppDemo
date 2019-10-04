@@ -79,6 +79,7 @@ public class Chat2Adapter extends RecyclerView.Adapter<Chat2Adapter.Chat2Holder>
                 Intent intent = new Intent(mContext, MessageApp.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("userid", user.getId());
+//                intent.putExtra("status",user.getStatus());
                 mContext.startActivity(intent);
             }
         });
