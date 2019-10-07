@@ -16,11 +16,12 @@ public class PostJob {
     private String uName;
     private String uImageUrl;
     private String uEmail;
+    private String pLikes;
 
     public PostJob() {
     }
 
-    public PostJob(String pId, String pTile, String pSomeCompanyInformation, String pRecruitTime, String pJobTime, String pIntroductJob, String pInfomationJob, String pImage, String pDateNow, String pCompanyEmail, String pCompanyAddress, String uid, String uName, String uImageUrl, String uEmail) {
+    public PostJob(String pId, String pTile, String pSomeCompanyInformation, String pRecruitTime, String pJobTime, String pIntroductJob, String pInfomationJob, String pImage, String pDateNow, String pCompanyEmail, String pCompanyAddress, String uid, String uName, String uImageUrl, String uEmail, String pLikes) {
         this.pId = pId;
         this.pTile = pTile;
         this.pSomeCompanyInformation = pSomeCompanyInformation;
@@ -36,6 +37,7 @@ public class PostJob {
         this.uName = uName;
         this.uImageUrl = uImageUrl;
         this.uEmail = uEmail;
+        this.pLikes = pLikes;
     }
 
     public String getpId() {
@@ -156,5 +158,13 @@ public class PostJob {
 
     public void setuEmail(String uEmail) {
         this.uEmail = uEmail;
+    }
+
+    public String getpLikes() {
+        return pLikes;
+    }
+
+    public void setpLikes(String pLikes) {
+        this.pLikes = pLikes;
     }
 }

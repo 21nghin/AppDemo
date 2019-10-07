@@ -82,6 +82,7 @@
                             android:textColor="@color/colorTim"
                             android:textSize="@dimen/sp_20" />
                         <ImageButton
+                            android:visibility="invisible"
                             android:background="@android:color/transparent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -143,7 +144,7 @@
                         android:background="#fff"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_likedefault"
+                        android:src="@drawable/icons_thumbs_24"
                         android:id="@+id/imgbtn_like_item_job"/>
                     <TextView
                         android:fontFamily="@font/sofiapro_light"

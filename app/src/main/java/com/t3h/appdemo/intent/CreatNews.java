@@ -57,7 +57,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final String TAG = "CreatNews";
     private Spinner spinnerCheckRecruitment;
     private Spinner spinnerCheckTime;
     private EditText edtTitle;
@@ -80,7 +79,6 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     private FirebaseDatabase fireData;
 
     private String email, name, uid, imageUrl;
-
     private Uri image_uri;
     private Calendar calendar;
 
@@ -269,13 +267,14 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
             return;
         }
 
+
         if (image_uri == null) {
             uploadData(tile, introduceJob,
                     companyAddress, companyEmail,
                     someCompanyInformation,
                     infomationJob, recruitTime,
                     jobTime, dateNow, "noImage");
-        } else {
+        }else {
             uploadData(tile, introduceJob,
                     companyAddress, companyEmail,
                     someCompanyInformation,
@@ -284,8 +283,10 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
         }
     }
 
+
     private void uploadData(final String tile, final String introduceJob, final String companyAddress, final String companyEmail, final String someCompanyInformation, final String infomationJob, final String recruitTime, final String jobTime, final String dateNow, final String uri) {
         progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         final String timeStamp = String.valueOf(System.currentTimeMillis());
         String filePath = "Posts/" + "post_" + timeStamp;
@@ -375,7 +376,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
                         @Override
                         public void onSuccess(Void aVoid) {
                             progressDialog.dismiss();
-                            Toast.makeText(CreatNews.this, "Đăng bài", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreatNews.this, "Đăng bài thành công!", Toast.LENGTH_SHORT).show();
                             edtTitle.setText("");
                             edtIntroduceJob.setText("");
                             edtCompanyAddress.setText("");
@@ -384,6 +385,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
                             edtInfomationJob.setText("");
                             imLogo.setImageURI(null);
                             image_uri = null;
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

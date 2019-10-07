@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,12 +31,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.model.PostJob;
 
@@ -49,6 +51,9 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
     private Boolean checklike = false;
     private Boolean checkShare = false;
 
+    private DatabaseReference likeRef;
+    private DatabaseReference postRef;
+
     private String myUid;
 
     private Context context;
@@ -58,6 +63,8 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         this.data = data;
         this.context = context;
         myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        likeRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+        postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
     }
 
     public void setListener(ItemListener listener) {
@@ -89,12 +96,16 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         String pInfomation = data.get(position).getpInfomationJob();
         String pCompanyAddress = data.get(position).getpCompanyAddress();
         String pCompanyEmail = data.get(position).getpCompanyEmail();
+        String pLikes = data.get(position).getpLikes();
 
         holder.tvNameUpload.setText(uName);
         holder.tvTitle.setText(pTitle);
         holder.tvSattusJob.setText(pRecruitTime);
         holder.tvIntro.setText(pIntroductJob);
         holder.tvDate.setText(pDateNow);
+        holder.tvDate.setText(pDateNow);
+        holder.tvNumberLike.setText(pLikes);
+        setLikes(holder, pId,pLikes);
 
         try {
             Glide.with(context).load(uImageUrl)
@@ -115,12 +126,18 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
 
         }
 
-        holder.imbPopubMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showMoreOptions(holder.imbPopubMenu, uid, myUid, pId, pImage);
-            }
-        });
+        if (uid.equals(myUid)) {
+            holder.imbPopubMenu.setVisibility(View.VISIBLE);
+            holder.imbPopubMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showMoreOptions(holder.imbPopubMenu, uid, myUid, pId, pImage);
+                }
+            });
+        } else {
+            holder.imbPopubMenu.setVisibility(View.INVISIBLE);
+        }
+
 
         if (listener != null) {
             holder.ln_item_comment.setOnClickListener(new View.OnClickListener() {
@@ -134,13 +151,31 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checklike) {
-                    holder.like.setImageResource(R.drawable.ic_like);
-                    checklike = false;
-                } else {
-                    holder.like.setImageResource(R.drawable.ic_likedefault);
-                    checklike = true;
-                }
+                final int pLikes = Integer.parseInt(data.get(position).getpLikes());
+                final String postId = data.get(position).getpId();
+                checklike = true;
+                likeRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (checklike) {
+                            if (dataSnapshot.child(postId).hasChild(myUid)) {
+                                postRef.child(postId).child("pLikes").setValue("" + (pLikes - 1));
+                                likeRef.child(postId).child(myUid).removeValue();
+                                checklike = false;
+                            } else {
+                                postRef.child(postId).child("pLikes").setValue("" + (pLikes + 1));
+                                likeRef.child(postId).child(myUid).setValue("Liked");
+                                checklike = false;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
 
@@ -152,11 +187,32 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         });
     }
 
+    private void setLikes(final RcvHolder holder, final String postKey, final String pLikes) {
+        likeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(postKey).hasChild(myUid)) {
+                    holder.like.setImageResource(R.drawable.icons_thumbs_black_24);
+                    holder.tvNumberLike.setText(pLikes);
+                }else {
+                    holder.like.setImageResource(R.drawable.icons_thumbs_24);
+                    holder.tvNumberLike.setText(pLikes);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void showMoreOptions(ImageButton imbPopubMenu, String uid, String myUid, final String pId, final String pImage) {
         PopupMenu popupMenu = new PopupMenu(context, imbPopubMenu, Gravity.END);
         if (uid.equals(myUid)) {
             imbPopubMenu.setVisibility(View.VISIBLE);
             popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
+//            popupMenu.getMenu().add(Menu.NONE, 1, 0, "Edit");
         } else {
             imbPopubMenu.setVisibility(View.INVISIBLE);
         }
@@ -168,6 +224,12 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
                 if (id == 0) {
                     beginDelete(pId, pImage);
                 }
+//                else if (id == 1){
+//                    Intent intent = new Intent(context, CreatNews.class);
+//                    intent.putExtra("key","editPost");
+//                    intent.putExtra("editPostId",pId);
+//                    context.startActivity(intent);
+//                }
                 return false;
             }
         });
