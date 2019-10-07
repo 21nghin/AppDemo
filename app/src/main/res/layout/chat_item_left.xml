@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_300"
     android:padding="@dimen/dp_5"
-    android:layout_marginLeft="@dimen/dp_10"
     android:layout_height="wrap_content">
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_centerVertical="true"
@@ -11,7 +10,7 @@
         android:src="@drawable/kim_jisoo_kr"
         android:id="@+id/im_image_chat"/>
     <TextView
-        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/dp_8"
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,6 +19,7 @@
         android:layout_marginLeft="10dp"
         android:padding="@dimen/dp_10"
         android:textSize="@dimen/sp_18"
+        android:gravity="center"
         android:background="@drawable/custom_text_chat"
         android:id="@+id/tv_show_chat"/>
 </RelativeLayout>

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,7 @@ import com.t3h.appdemo.R;
 import com.t3h.appdemo.adapter.ListJobAdapter;
 import com.t3h.appdemo.intent.DetailNewsApp;
 import com.t3h.appdemo.model.JobModel;
+import com.t3h.appdemo.model.PostJob;
 import com.t3h.appdemo.push_data.Const;
 
 import java.util.ArrayList;
@@ -32,10 +34,9 @@ public class NewsFragment extends Fragment implements ListJobAdapter.ItemListene
 
     private RecyclerView rcv;
     private ListJobAdapter adapter;
-    private ArrayList<JobModel> data;
+    private ArrayList<PostJob> data;
 
     private ValueEventListener mDBListener;
-    private FirebaseStorage firebaseStorage;
     private DatabaseReference databaseReference;
 
     private ProgressBar progressBar;
@@ -60,15 +61,14 @@ public class NewsFragment extends Fragment implements ListJobAdapter.ItemListene
     }
 
     private void initData() {
-        firebaseStorage = FirebaseStorage.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("JobModel");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Posts");
         mDBListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 data.clear();
                 for (DataSnapshot pull : dataSnapshot.getChildren()) {
-                    JobModel job = pull.getValue(JobModel.class);
-                    job.setId(pull.getKey());
+                    PostJob job = pull.getValue(PostJob.class);
+                    job.setpId(pull.getKey());
                     data.add(job);
                 }
                 adapter.notifyDataSetChanged();
@@ -85,17 +85,17 @@ public class NewsFragment extends Fragment implements ListJobAdapter.ItemListene
 
     @Override
     public void itemOnclickListener(int position) {
-        JobModel clickItemJob = data.get(position);
-        String[] readData = {clickItemJob.getImage()
-                , clickItemJob.getTitle()
-                , clickItemJob.getIntroduceJob()
-                , clickItemJob.getCompanyAddress()
-                , clickItemJob.getJobTime()
-                , clickItemJob.getCompanyEmail()
-                , clickItemJob.getSomeCompanyInformation()
-                , clickItemJob.getInfomationJob()
-                , clickItemJob.getRecruiTime()
-                , clickItemJob.getDate()
+        PostJob clickItemJob = data.get(position);
+        String[] readData = {clickItemJob.getpImage()
+                , clickItemJob.getpTile()
+                , clickItemJob.getpIntroductJob()
+                , clickItemJob.getpCompanyAddress()
+                , clickItemJob.getpJobTime()
+                , clickItemJob.getpCompanyEmail()
+                , clickItemJob.getpSomeCompanyInformation()
+                , clickItemJob.getpInfomationJob()
+                , clickItemJob.getpRecruitTime()
+                , clickItemJob.getpDateNow()
         };
         openJobExtra(readData);
     }
@@ -116,15 +116,17 @@ public class NewsFragment extends Fragment implements ListJobAdapter.ItemListene
     }
 
     private void initView() {
-
         rcv = getActivity().findViewById(R.id.lv_news);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+        rcv.setLayoutManager(layoutManager);
+
         data = new ArrayList<>();
-        adapter = new ListJobAdapter(getContext());
-        adapter.setData(data);
+        adapter = new ListJobAdapter(getContext(),data);
         adapter.setListener(this);
         rcv.setAdapter(adapter);
-
 
     }
 

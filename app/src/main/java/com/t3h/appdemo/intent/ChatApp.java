@@ -57,6 +57,7 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
     private List<ChatList> chatList;
 
     private ArrayList<User> mData;
+    private ArrayList<User> mData2;
     private ChatAdapter adapter;
     //TODO
     private Chat2Adapter adapter2;
@@ -159,21 +160,21 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
 
 
     private void loadChatList() {
-        mData = new ArrayList<>();
+        mData2 = new ArrayList<>();
         mDataRef = FirebaseDatabase.getInstance().getReference("Users");
         mDataRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mData.clear();
+                mData2.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     for (ChatList list : chatList) {
                         if (user.getId().equals(list.getId())) {
-                            mData.add(user);
+                            mData2.add(user);
                         }
                     }
                 }
-                adapter2 = new Chat2Adapter(ChatApp.this, mData, true);
+                adapter2 = new Chat2Adapter(ChatApp.this, mData2, true);
                 lvHaveMessage.setAdapter(adapter2);
             }
 

@@ -6,19 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+
 import android.text.Editable;
 import android.text.TextWatcher;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.webkit.MimeTypeMap;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -29,23 +29,35 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.t3h.appdemo.R;
-import com.t3h.appdemo.model.JobModel;
+import com.t3h.appdemo.model.User;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final String TAG = "CreatNews";
     private Spinner spinnerCheckRecruitment;
     private Spinner spinnerCheckTime;
     private EditText edtTitle;
@@ -61,30 +73,77 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     private TextInputLayout textInformationJob;
     private ImageView imLogo;
     private Toolbar toolbar;
+    private CircleImageView civImageAccount;
 
     private DatabaseReference databaseReference;
-    private StorageReference storageReference;
-    private FirebaseStorage firebaseStorage;
-    private Uri uri;
+    private FirebaseAuth fireAuth;
+    private FirebaseDatabase fireData;
+
+    private String email, name, uid, imageUrl;
+
+    private Uri image_uri;
     private Calendar calendar;
 
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);;
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_creat_news);
 
-        initFirebase();
         initViews();
+        checkUserStatus();
         getDataSpinner();
+        loadCurentUserImage();
     }
 
-    private void initFirebase() {
-        calendar = Calendar.getInstance();
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference("Logo");
-        databaseReference = FirebaseDatabase.getInstance().getReference("JobModel");
+    private void loadCurentUserImage() {
+        fireAuth = FirebaseAuth.getInstance();
+        fireData = FirebaseDatabase.getInstance();
+        databaseReference = fireData.getReference("Users").child(fireAuth.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                Glide.with(getApplicationContext())
+                        .load(user.getImageUrl())
+                        .skipMemoryCache(true)
+                        .error(R.drawable.im_account)
+                        .centerCrop()
+                        .into(civImageAccount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(CreatNews.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        Query query = databaseReference.orderByChild("email").equalTo(email);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    name = "" + snapshot.child("name").getValue();
+                    email = "" + snapshot.child("email").getValue();
+                    imageUrl = "" + snapshot.child("imageUrl").getValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        Glide.with(getApplicationContext())
+                .load(imageUrl)
+                .skipMemoryCache(true)
+                .error(R.drawable.im_account)
+                .centerCrop()
+                .into(civImageAccount);
+
     }
 
     private void getDataSpinner() {
@@ -108,7 +167,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
 
     private void initViews() {
         toolbar = findViewById(R.id.creat_news_toolbar);
-        progressDialog = new ProgressDialog(CreatNews.this);
+        progressDialog = new ProgressDialog(this);
 
         textIntroduceJob = findViewById(R.id.creat_text_introduce);
         textCompanyAddress = findViewById(R.id.creat_text_company_address);
@@ -122,6 +181,8 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
         edtCompanyEmail = findViewById(R.id.creat_edt_company_email);
         edtSomeCompanyInfor = findViewById(R.id.creat_edt_some_company_infor);
         edtInfomationJob = findViewById(R.id.creat_edt_infor_job);
+
+        civImageAccount = findViewById(R.id.im_create_upload);
         imLogo = findViewById(R.id.creat_im_image);
 
         spinnerCheckRecruitment = findViewById(R.id.creat_spiner);
@@ -174,6 +235,9 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     }
 
     private void upLoadData() {
+
+        calendar = Calendar.getInstance();
+
         final String tile = edtTitle.getText().toString();
         final String introduceJob = edtIntroduceJob.getText().toString();
         final String companyAddress = edtCompanyAddress.getText().toString();
@@ -184,66 +248,152 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
         final String jobTime = spinnerCheckTime.getSelectedItem().toString();
         final String dateNow = DateFormat.getDateInstance().format(calendar.getTime());
 
-        if (introduceJob.isEmpty()){
+        if (introduceJob.isEmpty()) {
             textIntroduceJob.setError("enter information job!");
             return;
         }
-        if (companyAddress.isEmpty()){
+        if (companyAddress.isEmpty()) {
             textCompanyAddress.setError("enter company address!");
             return;
         }
-        if (companyEmail.isEmpty()){
+        if (companyEmail.isEmpty()) {
             textCompanyEmail.setError("enter company email!");
             return;
         }
-        if (someCompanyInformation.isEmpty()){
+        if (someCompanyInformation.isEmpty()) {
             textSomeCompanyInfor.setError("enter some company information!");
             return;
         }
-        if (infomationJob.isEmpty()){
+        if (infomationJob.isEmpty()) {
             textInformationJob.setError("enter introduce job!");
             return;
         }
 
+        if (image_uri == null) {
+            uploadData(tile, introduceJob,
+                    companyAddress, companyEmail,
+                    someCompanyInformation,
+                    infomationJob, recruitTime,
+                    jobTime, dateNow, "noImage");
+        } else {
+            uploadData(tile, introduceJob,
+                    companyAddress, companyEmail,
+                    someCompanyInformation,
+                    infomationJob, recruitTime,
+                    jobTime, dateNow, String.valueOf(image_uri));
+        }
+    }
 
-        progressDialog.setMessage(getString(R.string.dialog_loading));
+    private void uploadData(final String tile, final String introduceJob, final String companyAddress, final String companyEmail, final String someCompanyInformation, final String infomationJob, final String recruitTime, final String jobTime, final String dateNow, final String uri) {
+        progressDialog.setMessage("Loading...");
         progressDialog.show();
-        if (uri != null) {
-            final StorageReference filePath = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
-            filePath.putFile(uri)
+        final String timeStamp = String.valueOf(System.currentTimeMillis());
+        String filePath = "Posts/" + "post_" + timeStamp;
+        if (!uri.equals("noImage")) {
+            StorageReference storRef = FirebaseStorage.getInstance().getReference().child(filePath);
+            storRef.putFile(Uri.parse(uri))
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String url = uri.toString();
-                                    JobModel job = new JobModel(url,tile,introduceJob,companyAddress,jobTime,companyEmail,someCompanyInformation,infomationJob,recruitTime,dateNow);
-                                    String jobId = databaseReference.push().getKey();
-                                    databaseReference.child(jobId).setValue(job);
-                                }
-                            });
-                            Toast.makeText(CreatNews.this, "update thanh cong!", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!uriTask.isSuccessful()) ;
+                            String dowloadUri = uriTask.getResult().toString();
+                            if (uriTask.isSuccessful()) {
+                                HashMap<Object, String> hashMap = new HashMap<>();
+                                hashMap.put("uid", uid);
+                                hashMap.put("uName", name);
+                                hashMap.put("uEmail", email);
+                                hashMap.put("uImageUrl", imageUrl);
+                                hashMap.put("pId", timeStamp);
+                                hashMap.put("pTile", tile);
+                                hashMap.put("pIntroductJob", introduceJob);
+                                hashMap.put("pCompanyAddress", companyAddress);
+                                hashMap.put("pCompanyEmail", companyEmail);
+                                hashMap.put("pSomeCompanyInformation", someCompanyInformation);
+                                hashMap.put("pInfomationJob", infomationJob);
+                                hashMap.put("pRecruitTime", recruitTime);
+                                hashMap.put("pJobTime", jobTime);
+                                hashMap.put("pDateNow", dateNow);
+                                hashMap.put("pImage", dowloadUri);
+
+                                DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("Posts");
+                                dataRef.child(timeStamp).setValue(hashMap)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(CreatNews.this, "Đăng bài", Toast.LENGTH_SHORT).show();
+                                                edtTitle.setText("");
+                                                edtIntroduceJob.setText("");
+                                                edtCompanyAddress.setText("");
+                                                edtCompanyEmail.setText("");
+                                                edtSomeCompanyInfor.setText("");
+                                                edtInfomationJob.setText("");
+                                                imLogo.setImageURI(null);
+                                                image_uri = null;
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(CreatNews.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CreatNews.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
+                            Toast.makeText(CreatNews.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        }else {
-            progressDialog.dismiss();
-            Toast.makeText(this, "Chọn tệp trước khi đăng", Toast.LENGTH_SHORT).show();
-        }
-    }
+        } else {
+            HashMap<Object, String> hashMap = new HashMap<>();
+            hashMap.put("uid", uid);
+            hashMap.put("uName", name);
+            hashMap.put("uEmail", email);
+            hashMap.put("uImageUrl", imageUrl);
+            hashMap.put("pId", timeStamp);
+            hashMap.put("pTile", tile);
+            hashMap.put("pIntroductJob", introduceJob);
+            hashMap.put("pCompanyAddress", companyAddress);
+            hashMap.put("pCompanyEmail", companyEmail);
+            hashMap.put("pSomeCompanyInformation", someCompanyInformation);
+            hashMap.put("pInfomationJob", infomationJob);
+            hashMap.put("pRecruitTime", recruitTime);
+            hashMap.put("pJobTime", jobTime);
+            hashMap.put("pDateNow", dateNow);
+            hashMap.put("pImage", "noImage");
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(cR.getType(uri));
+            DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("Posts");
+            dataRef.child(timeStamp).setValue(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            progressDialog.dismiss();
+                            Toast.makeText(CreatNews.this, "Đăng bài", Toast.LENGTH_SHORT).show();
+                            edtTitle.setText("");
+                            edtIntroduceJob.setText("");
+                            edtCompanyAddress.setText("");
+                            edtCompanyEmail.setText("");
+                            edtSomeCompanyInfor.setText("");
+                            edtInfomationJob.setText("");
+                            imLogo.setImageURI(null);
+                            image_uri = null;
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(CreatNews.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     private void openFilePhoto() {
@@ -256,8 +406,8 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data.getData() != null) {
-            uri = data.getData();
-            Glide.with(this).load(uri).error(R.drawable.infotect_jobs).centerCrop().into(imLogo);
+            image_uri = data.getData();
+            Glide.with(this).load(image_uri).error(R.drawable.infotect_jobs).centerCrop().into(imLogo);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -272,7 +422,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
-    // addTextchange
+
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -280,42 +430,42 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        if (charSequence.length()==0){
+        if (charSequence.length() == 0) {
             textSomeCompanyInfor.setErrorEnabled(false);
             textSomeCompanyInfor.setError(null);
-        }else {
+        } else {
             textSomeCompanyInfor.setErrorEnabled(false);
             textSomeCompanyInfor.setError(null);
         }
 
-        if (charSequence.length()==0){
+        if (charSequence.length() == 0) {
             textCompanyEmail.setErrorEnabled(false);
             textCompanyEmail.setError(null);
-        }else {
+        } else {
             textCompanyEmail.setErrorEnabled(false);
             textCompanyEmail.setError(null);
         }
 
-        if (charSequence.length()==0){
+        if (charSequence.length() == 0) {
             textIntroduceJob.setErrorEnabled(false);
             textIntroduceJob.setError(null);
-        }else {
+        } else {
             textIntroduceJob.setErrorEnabled(false);
             textIntroduceJob.setError(null);
         }
 
-        if (charSequence.length()==0){
+        if (charSequence.length() == 0) {
             textInformationJob.setErrorEnabled(false);
             textInformationJob.setError(null);
-        }else {
+        } else {
             textInformationJob.setErrorEnabled(false);
             textInformationJob.setError(null);
         }
 
-        if (charSequence.length()==0){
+        if (charSequence.length() == 0) {
             textCompanyAddress.setErrorEnabled(false);
             textCompanyAddress.setError(null);
-        }else {
+        } else {
             textCompanyAddress.setErrorEnabled(false);
             textCompanyAddress.setError(null);
         }
@@ -324,5 +474,28 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     @Override
     public void afterTextChanged(Editable editable) {
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkUserStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkUserStatus();
+    }
+
+    private void checkUserStatus() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            email = user.getEmail();
+            uid = user.getUid();
+        } else {
+            startActivity(new Intent(this, MainApp.class));
+            finish();
+        }
     }
 }

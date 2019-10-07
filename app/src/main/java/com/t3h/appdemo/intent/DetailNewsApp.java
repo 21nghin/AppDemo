@@ -50,7 +50,6 @@ public class DetailNewsApp extends AppCompatActivity implements View.OnClickList
     private BottomAppBar appBar;
     private EditText edtComment;
     private ImageButton btnSaved;
-    private ImageButton btnDelete;
     private ImageButton btnChat;
     private TextView tvIntroduceJob;
     private TextView tvTitle;
@@ -133,7 +132,6 @@ public class DetailNewsApp extends AppCompatActivity implements View.OnClickList
         btnSendCV = findViewById(R.id.detail_btn_send_cv);
         btnChat = findViewById(R.id.item_detail_chat);
         btnSaved = findViewById(R.id.item_saved);
-        btnDelete = findViewById(R.id.item_detail_delete);
         btnChat = findViewById(R.id.item_detail_chat);
         edtComment = findViewById(R.id.edt_comment);
         appBar = findViewById(R.id.id_detail_app_bar);
@@ -146,7 +144,6 @@ public class DetailNewsApp extends AppCompatActivity implements View.OnClickList
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_black_24dp);
 
         rcvCmt.setAdapter(adapter);
-        btnDelete.setOnClickListener(this);
         btnSaved.setOnClickListener(this);
         btnChat.setOnClickListener(this);
         btnSendCV.setOnClickListener(this);
@@ -169,24 +166,6 @@ public class DetailNewsApp extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
             case R.id.item_detail_chat:
                 Toast.makeText(this, "chat", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.item_detail_delete:
-                mDialog = new AlertDialog.Builder(this);
-                mDialog.setMessage(getString(R.string.dialog_message_delete_detel))
-                        .setPositiveButton(getString(R.string.message_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.message_no), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-
-                mDialog.show();
                 break;
             case R.id.item_saved:
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();

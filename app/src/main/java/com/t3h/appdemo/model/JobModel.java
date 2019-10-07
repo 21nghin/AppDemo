@@ -1,5 +1,7 @@
 package com.t3h.appdemo.model;
 
+import android.net.Uri;
+
 import com.google.firebase.database.Exclude;
 
 public class JobModel {
@@ -15,13 +17,16 @@ public class JobModel {
     private String infomationJob;
     private String recruiTime;
     private String date;
+    private String userid;
+    private String nameDisplay;
+    private Uri imageUrl;
 
     private String numberLike,numberComment,numberShare;
 
     public JobModel() {
     }
 
-    public JobModel(String image, String title, String introduceJob, String companyAddress, String jobTime, String companyEmail, String someCompanyInformation, String infomationJob, String recruiTime, String date) {
+    public JobModel(String image, String title, String introduceJob, String companyAddress, String jobTime, String companyEmail, String someCompanyInformation, String infomationJob, String recruiTime, String date,String userid) {
         this.image = image;
         this.title = title;
         this.introduceJob = introduceJob;
@@ -32,6 +37,7 @@ public class JobModel {
         this.infomationJob = infomationJob;
         this.recruiTime = recruiTime;
         this.date = date;
+        this.userid = userid;
     }
 
     public String getImage() {
@@ -121,5 +127,29 @@ public class JobModel {
     @Exclude
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getNameDisplay() {
+        return nameDisplay;
+    }
+
+    public void setNameDisplay(String nameDisplay) {
+        this.nameDisplay = nameDisplay;
+    }
+
+    public Uri getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(Uri imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

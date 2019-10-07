@@ -59,11 +59,9 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
     private String name, email, pass, confirmPass;
     private CircleImageView imAddImage;
 
-    private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
     private FirebaseUser mUser;
-    private FirebaseStorage mFireSt;
     private StorageReference mStorageRef;
     private Uri uri;
     private User user;
@@ -79,10 +77,8 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
         mAuth = FirebaseAuth.getInstance();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        mDatabase = FirebaseDatabase.getInstance();
-        mFireSt = FirebaseStorage.getInstance();
-        mStorageRef = mFireSt.getReference("Images");
-        mDatabaseRef = mDatabase.getReference("Users").child(mUser.getUid());
+        mStorageRef = FirebaseStorage.getInstance().getReference("AccountImage");
+
 
         toolbar = findViewById(R.id.id_edit_toolbar);
         toolbar.setTitle(getString(R.string.tv_edit_user));
@@ -97,6 +93,7 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
 
 
     private void getDataFirebase() {
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -187,7 +184,7 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 if (uri != null) {
-                    final StorageReference filePath = mStorageRef.child("Users" + "." + getFileExtension(uri));
+                    final StorageReference filePath = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(uri));
                     filePath.putFile(uri)
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -197,32 +194,23 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
                                         public void onSuccess(Uri uri) {
                                             FirebaseUser fireUser = mAuth.getCurrentUser();
                                             String userid = fireUser.getUid();
-                                            assert fireUser != null;
+//                                            assert fireUser != null;
                                             String url = uri.toString();
-
-                                            //TODO
-                                            Toast.makeText(EditUserApp.this, "Sửa thông tin thành công", Toast.LENGTH_SHORT).show();
-
+                                            
                                             mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users").child(userid);
-                                            HashMap<String, String> hashMap = new HashMap<>();
-                                            hashMap.put("id", userid);
-                                            hashMap.put("name", name);
-                                            hashMap.put("email", email);
-                                            hashMap.put("imageUrl", "default");
-                                            hashMap.put("password", pass);
-                                            hashMap.put("status", "offline");
-                                            hashMap.put("search", name.toLowerCase());
                                             User user = new User(userid, name, email, pass, url, "offline", name.toLowerCase());
                                             doUpdateUser(user);
                                         }
                                     });
-
+                                    Toast.makeText(EditUserApp.this, "cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(EditUserApp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
                                 }
                             });
                 } else {
@@ -299,7 +287,11 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null && data.getData() != null) {
             uri = data.getData();
-            Picasso.with(this).load(uri).into(imAddImage);
+            Glide.with(this).load(uri)
+                    .error(R.drawable.im_account)
+                    .skipMemoryCache(true)
+                    .centerCrop()
+                    .into(imAddImage);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -313,7 +305,7 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select image"), PICK_IMAGE);
+        startActivityForResult(intent, PICK_IMAGE);
     }
 
     @Override

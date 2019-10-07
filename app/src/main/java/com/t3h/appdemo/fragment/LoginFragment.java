@@ -57,11 +57,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(getContext());
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            getActivity().finish();
-            startActivity(new Intent(getContext(), MainApp.class));
-        }
 
         initView();
     }
@@ -120,9 +115,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
-
-
                             progressDialog.dismiss();
                             startActivity(new Intent(getContext(), MainApp.class));
                             getActivity().finish();
@@ -180,4 +172,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Tex
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            getActivity().finish();
+            startActivity(new Intent(getContext(), MainApp.class));
+        }
+
+    }
 }

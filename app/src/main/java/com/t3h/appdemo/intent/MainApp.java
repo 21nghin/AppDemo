@@ -8,6 +8,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,8 +25,11 @@ import com.google.android.material.tabs.TabLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.adapter.AppAdapter;
 import com.t3h.appdemo.adapter.ListJobAdapter;
@@ -32,10 +38,11 @@ import com.t3h.appdemo.fragment.NewsFragment;
 import com.t3h.appdemo.fragment.NotificationFragment;
 import com.t3h.appdemo.fragment.SavedFragment;
 import com.t3h.appdemo.model.JobModel;
+import com.t3h.appdemo.model.PostJob;
+import com.t3h.appdemo.push_data.Const;
 
 import java.util.ArrayList;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class MainApp extends AppCompatActivity {
@@ -44,6 +51,12 @@ public class MainApp extends AppCompatActivity {
     private FloatingActionButton fabAdd;
     private Toolbar toolChat;
 
+    private ValueEventListener mDBListener;
+    private DatabaseReference databaseReference;
+    private ArrayList<PostJob> data;
+    private RecyclerView rcv;
+    private ListJobAdapter adapter;
+
     private TabLayout tabApp;
     private ViewPager pagerApp;
     private NewsFragment news = new NewsFragment();
@@ -51,11 +64,6 @@ public class MainApp extends AppCompatActivity {
     private NotificationFragment notification = new NotificationFragment();
     private AppAdapter appAdapter;
 
-    private ArrayList<JobModel> data;
-    private ListJobAdapter adapter;
-
-//    private FirebaseUser mUser;
-//    private DatabaseReference mDataRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +72,7 @@ public class MainApp extends AppCompatActivity {
 
         setUpAppView();
         setUpAppBar();
-//        setUpDatasearch();
     }
-//
-//    private void setUpDatasearch() {
-//        data = new ArrayList<>();
-//        adapter = new ListJobAdapter(this);
-//        adapter.setData(data);
-//    }
-
 
     private void setUpAppBar() {
         toolChat = findViewById(R.id.tool_chat);
@@ -135,23 +135,19 @@ public class MainApp extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_app_bar, menu);
         final MenuItem searchItem = menu.findItem(R.id.id_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                if (!searchView.isIconified()){
-//                    searchView.setIconified(true);
-//                }
-//                searchItem.collapseActionView();
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                List<JobModel> jobList = searchJob(data,newText);
-//                adapter.setFilter(jobList);
-//                return false;
-//            }
-//        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +171,8 @@ public class MainApp extends AppCompatActivity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -185,17 +183,7 @@ public class MainApp extends AppCompatActivity {
         return true;
     }
 
-    private List<JobModel> searchJob(List<JobModel> pl, String query){
-        query = query.toLowerCase();
-        List<JobModel> jobList = new ArrayList<>();
-        for (JobModel job : pl) {
-            String text = job.getTitle().toLowerCase();
-            if (text.startsWith(query)){
-                jobList.add(job);
-            }
-        }
-        return jobList;
-    }
+
 
 //    private void status(String status) {
 //        mUser = FirebaseAuth.getInstance().getCurrentUser();
