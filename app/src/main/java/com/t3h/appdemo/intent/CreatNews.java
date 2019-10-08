@@ -311,6 +311,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
                                 hashMap.put("pCompanyAddress", companyAddress);
                                 hashMap.put("pCompanyEmail", companyEmail);
                                 hashMap.put("pSomeCompanyInformation", someCompanyInformation);
+                                hashMap.put("pLikes","0");
                                 hashMap.put("pInfomationJob", infomationJob);
                                 hashMap.put("pRecruitTime", recruitTime);
                                 hashMap.put("pJobTime", jobTime);

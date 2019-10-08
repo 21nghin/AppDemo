@@ -5,7 +5,10 @@ import android.content.Context;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +44,8 @@ import com.google.firebase.storage.StorageReference;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.model.PostJob;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -86,8 +92,8 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         String uName = data.get(position).getuName();
         String uImageUrl = data.get(position).getuImageUrl();
         final String pId = data.get(position).getpId();
-        String pTitle = data.get(position).getpTile();
-        String pIntroductJob = data.get(position).getpIntroductJob();
+        final String pTitle = data.get(position).getpTile();
+        final String pIntroductJob = data.get(position).getpIntroductJob();
         final String pImage = data.get(position).getpImage();
         String pDateNow = data.get(position).getpDateNow();
         String pSomeCompany = data.get(position).getpSomeCompanyInformation();
@@ -105,7 +111,7 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
         holder.tvDate.setText(pDateNow);
         holder.tvDate.setText(pDateNow);
         holder.tvNumberLike.setText(pLikes);
-        setLikes(holder, pId,pLikes);
+        setLikes(holder, pId, pLikes);
 
         try {
             Glide.with(context).load(uImageUrl)
@@ -120,7 +126,7 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
             Glide.with(context).load(pImage)
                     .skipMemoryCache(true)
                     .error(R.drawable.media_img)
-                    .centerCrop()
+                    .centerInside()
                     .into(holder.imageView);
         } catch (Exception e) {
 
@@ -179,13 +185,65 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
             }
         });
 
+        holder.tvNumberShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) holder.imageView.getDrawable();
+                if (bitmapDrawable == null) {
+                    sheraTextOnly(pTitle, pIntroductJob);
+                } else {
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    shareImageAndText(pTitle, pIntroductJob, bitmap);
+                }
+            }
+        });
+
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(context, "Share", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    private void sheraTextOnly(String pTitle, String pIntroductJob) {
+        String shareBody = pTitle + "\n" + pIntroductJob;
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+        intent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        context.startActivity(Intent.createChooser(intent, "Share Via"));
+    }
+
+    private void shareImageAndText(String pTitle, String pIntroductJob, Bitmap bitmap) {
+        String shareBody = pTitle + "\n" + pIntroductJob;
+        Uri uri = saveImageToShare(bitmap);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_STREAM,uri);
+        intent.putExtra(Intent.EXTRA_TEXT,shareBody);
+        intent.putExtra(Intent.EXTRA_SUBJECT,"Chia sẻ chủ đề");
+        intent.setType("image/png");
+        context.startActivity(Intent.createChooser(intent,"Share Via"));
+    }
+
+    private Uri saveImageToShare(Bitmap bitmap) {
+        File imgFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
+        try {
+            imgFolder.mkdirs();
+            File file = new File(imgFolder, "shared_image.png");
+
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(context, "com.t3h.appdemo.fileprovider", file);
+        } catch (Exception e) {
+            Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return uri;
+    }
+
 
     private void setLikes(final RcvHolder holder, final String postKey, final String pLikes) {
         likeRef.addValueEventListener(new ValueEventListener() {
@@ -194,7 +252,7 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
                 if (dataSnapshot.child(postKey).hasChild(myUid)) {
                     holder.like.setImageResource(R.drawable.icons_thumbs_black_24);
                     holder.tvNumberLike.setText(pLikes);
-                }else {
+                } else {
                     holder.like.setImageResource(R.drawable.icons_thumbs_24);
                     holder.tvNumberLike.setText(pLikes);
                 }
@@ -364,8 +422,8 @@ public class ListJobAdapter extends RecyclerView.Adapter<ListJobAdapter.RcvHolde
             share = itemView.findViewById(R.id.imgbtn_share_item_job);
 
             tvNumberLike = itemView.findViewById(R.id.tv_number_like_item_job);
-            tvNumberShare = itemView.findViewById(R.id.tv_number_comment_item_job);
-            tvNumberComment = itemView.findViewById(R.id.tv_number_share_item_job);
+            tvNumberShare = itemView.findViewById(R.id.tv_share_item_job);
+            tvNumberComment = itemView.findViewById(R.id.tv_number_comment_item_job);
         }
 
         public void bindData(PostJob item) {

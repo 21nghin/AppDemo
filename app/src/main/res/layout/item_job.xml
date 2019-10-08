@@ -212,19 +212,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_sharedefault"/>
+
                     <TextView
+                        android:id="@+id/tv_share_item_job"
                         android:fontFamily="@font/sofiapro_light"
-                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_8"
                         android:layout_toRightOf="@+id/imgbtn_share_item_job"
-                        android:id="@+id/tv_number_share_item_job"
-                        android:layout_marginLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="12"/>
-                    <TextView
-                        android:fontFamily="@font/sofiapro_light"
-                        android:layout_marginLeft="3dp"
-                        android:layout_toRightOf="@+id/tv_number_share_item_job"
                         android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
