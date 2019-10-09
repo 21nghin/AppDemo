@@ -14,10 +14,88 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
+                android:layout_marginTop="@dimen/dp_2"
+                android:layout_marginLeft="@dimen/dp_1"
+                android:layout_marginRight="@dimen/dp_1"
                 android:id="@+id/ln_item_cmt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <RelativeLayout
+                    android:padding="@dimen/dp_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imv_image_item_job">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_centerVertical="true"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
+                        android:src="@drawable/im_account"
+                        android:id="@+id/im_account_upload"/>
+                    <RelativeLayout
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/im_account_upload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/colorMenu"
+                            android:textSize="16sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="Name uplaod"
+                            android:id="@+id/tv_name_upload" />
+                        <TextView
+                            android:layout_below="@+id/tv_name_upload"
+                            android:fontFamily="@font/sofiapro_light"
+                            android:id="@+id/tv_date_item_job"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dateUpload" />
+                    </RelativeLayout>
+                    <ImageButton
+                        android:background="@android:color/transparent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_more"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/popub_menu"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:padding="@dimen/dp_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_alignParentLeft="true"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:padding="5dp"
+                        android:id="@+id/tv_title_item_job"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/sofiapro_medium"
+                        android:text="@string/job_title"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorMenu"
+                        android:textSize="@dimen/sp_20" />
+                    <TextView
+                        android:padding="@dimen/dp_5"
+                        android:layout_below="@+id/tv_title_item_job"
+                        android:fontFamily="sans-serif-light"
+                        android:id="@+id/tv_intro_item_job"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="4"
+                        android:text="@string/job_review"
+                        android:textColor="#000" />
+                </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/rl_image_title"
                     android:layout_width="match_parent"
@@ -25,37 +103,8 @@
                     <ImageView
                         android:id="@+id/imv_image_item_job"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:scaleType="fitXY"
+                        android:layout_height="@dimen/dp_200"
                         android:src="@drawable/infotect_jobs" />
-
-                    <RelativeLayout
-                        android:padding="@dimen/dp_5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#37373737"
-                        android:layout_alignBottom="@+id/imv_image_item_job">
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_centerVertical="true"
-                            android:layout_width="@dimen/dp_50"
-                            android:layout_height="@dimen/dp_50"
-                            android:src="@drawable/im_account"
-                            android:id="@+id/im_account_upload"/>
-                        <TextView
-                            android:textStyle="bold"
-                            android:layout_centerVertical="true"
-                            android:textColor="@color/colorTim"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="16sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:text="Name uplaod"
-                            android:id="@+id/tv_name_upload"
-                            android:layout_toRightOf="@+id/im_account_upload"/>
-                    </RelativeLayout>
-
                 </RelativeLayout>
 
                 <LinearLayout
@@ -63,55 +112,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_alignParentLeft="true"
-                            android:layout_toLeftOf="@+id/popub_menu"
-                            android:maxLines="2"
-                            android:ellipsize="end"
-                            android:padding="5dp"
-                            android:id="@+id/tv_title_item_job"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:fontFamily="@font/sofiapro_medium"
-                            android:text="@string/job_title"
-                            android:textStyle="bold"
-                            android:textColor="@color/colorTim"
-                            android:textSize="@dimen/sp_20" />
-                        <ImageButton
-                            android:visibility="invisible"
-                            android:background="@android:color/transparent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_more"
-                            android:layout_alignParentRight="true"
-                            android:id="@+id/popub_menu"/>
-                    </RelativeLayout>
-                    <TextView
-                        android:padding="5dp"
-                        android:fontFamily="sans-serif-light"
-                        android:id="@+id/tv_intro_item_job"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:lines="2"
-                        android:text="@string/job_review"
-                        android:textColor="#000" />
 
                     <RelativeLayout
                         android:layout_marginLeft="@dimen/dp_5"
                         android:layout_marginRight="@dimen/dp_5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <TextView
-                            android:fontFamily="@font/sofiapro_light"
-                            android:id="@+id/tv_date_item_job"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/dateUpload" />
                         <TextView
                             android:fontFamily="serif"
                             android:id="@+id/tv_status_item_job"
@@ -127,7 +133,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#000"
+                android:background="#37373737"
                 />
             <RelativeLayout
                 android:padding="10dp"
@@ -190,6 +196,7 @@
                         android:layout_marginLeft="5dp"
                         android:text="12"/>
                     <TextView
+                        android:id="@+id/tv_comment_item"
                         android:fontFamily="@font/sofiapro_light"
                         android:layout_marginLeft="3dp"
                         android:layout_centerVertical="true"

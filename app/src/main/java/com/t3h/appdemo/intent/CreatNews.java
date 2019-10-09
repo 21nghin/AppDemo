@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,6 +58,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final String TAG = "CreatNews";
     private Spinner spinnerCheckRecruitment;
     private Spinner spinnerCheckTime;
     private EditText edtTitle;
@@ -78,7 +80,10 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     private FirebaseAuth fireAuth;
     private FirebaseDatabase fireData;
 
-    private String email, name, uid, imageUrl;
+    private String email;
+    private String name;
+    private String uid;
+    private String imageUrl;
     private Uri image_uri;
     private Calendar calendar;
 
@@ -312,6 +317,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
                                 hashMap.put("pCompanyEmail", companyEmail);
                                 hashMap.put("pSomeCompanyInformation", someCompanyInformation);
                                 hashMap.put("pLikes","0");
+                                hashMap.put("pComments","0");
                                 hashMap.put("pInfomationJob", infomationJob);
                                 hashMap.put("pRecruitTime", recruitTime);
                                 hashMap.put("pJobTime", jobTime);
@@ -324,7 +330,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(CreatNews.this, "Đăng bài", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(CreatNews.this, "Đăng bài thành công!", Toast.LENGTH_SHORT).show();
                                                 edtTitle.setText("");
                                                 edtIntroduceJob.setText("");
                                                 edtCompanyAddress.setText("");
@@ -365,6 +371,8 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
             hashMap.put("pCompanyAddress", companyAddress);
             hashMap.put("pCompanyEmail", companyEmail);
             hashMap.put("pSomeCompanyInformation", someCompanyInformation);
+            hashMap.put("pLikes","0");
+            hashMap.put("pComments","0");
             hashMap.put("pInfomationJob", infomationJob);
             hashMap.put("pRecruitTime", recruitTime);
             hashMap.put("pJobTime", jobTime);
@@ -400,7 +408,7 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
     }
 
     private void openFilePhoto() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);

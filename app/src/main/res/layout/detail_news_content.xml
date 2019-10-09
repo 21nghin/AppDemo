@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <ScrollView
         android:layout_marginTop="@dimen/dp_56"
         android:layout_marginBottom="@dimen/dp_60"
@@ -21,8 +22,7 @@
                 <ImageView
                     android:id="@+id/detail_im_image"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_250"
-                    android:scaleType="fitXY"
+                    android:layout_height="@dimen/dp_200"
                     android:src="@drawable/infotect_jobs" />
             </RelativeLayout>
 
@@ -212,28 +212,16 @@
                     android:fontFamily="sans-serif-light"
                     android:id="@+id/detail_tv_date"/>
             </RelativeLayout>
-            <Button
-                android:textAllCaps="false"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/shape_btn"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_20"
-                android:fontFamily="@font/sofiapro_medium"
-                android:padding="@dimen/dp_10"
-                android:id="@+id/detail_btn_send_cv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/send_cv" />
 
             <RelativeLayout
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/lv_comment"
+                    tools:listitem="@layout/item_comment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    android:layout_height="wrap_content"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

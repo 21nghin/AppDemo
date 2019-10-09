@@ -1,86 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_5"
     android:layout_height="wrap_content">
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
-        <LinearLayout
-            android:id="@+id/ln_item_cmt"
-            android:padding="10dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:src="@drawable/im_account"
+        android:id="@+id/civ_comment"/>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/civ_comment"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_alignParentTop="true"
+            android:id="@+id/layout_rlt"
+            android:padding="@dimen/dp_10"
+            android:background="@drawable/shape_comment_item"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imv_image_item_cmt"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@mipmap/ic_launcher_round"/>
-                <TextView
-                    android:id="@+id/tv_user_name_item_cmt"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/tv_user_name"/>
-            </LinearLayout>
             <TextView
-                android:id="@+id/tv_cmt_item_cmt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/comment"/>
-            <TextView
-                android:id="@+id/tv_date_item_cmt"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/dateUpload"/>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:text="Name comment"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/tv_name_comment_item"/>
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-                <ImageButton
-                    android:background="#fff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_likedefault"
-                    android:id="@+id/imgbtn_like_item_cmt"/>
-                <TextView
-                    android:layout_margin="5dp"
-                    android:id="@+id/tv_number_like_item_cmt"
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/number" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:text="@string/like" />
-                <ImageButton
-                    android:background="#fff"
-                    android:id="@+id/imgbtn_cmt_item_cmt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_comment"/>
-                <TextView
-                    android:id="@+id/tv_number_share_item_cmt"
-                    android:layout_margin="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/number"/>
-                <TextView
-                    android:layout_marginRight="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/comment"/>
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+                android:text="Content comment and ...."
+                android:layout_below="@+id/tv_name_comment_item"
+                android:id="@+id/tv_content_comment_item"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 giờ"
+            android:layout_below="@+id/layout_rlt"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:id="@+id/tv_hour_ago"/>
+    </RelativeLayout>
+</RelativeLayout>

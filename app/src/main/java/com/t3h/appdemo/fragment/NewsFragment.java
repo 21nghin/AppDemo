@@ -30,7 +30,7 @@ import com.t3h.appdemo.push_data.Const;
 
 import java.util.ArrayList;
 
-public class NewsFragment extends Fragment implements ListJobAdapter.ItemListener {
+public class NewsFragment extends Fragment{
 
     private RecyclerView rcv;
     private ListJobAdapter adapter;
@@ -83,38 +83,6 @@ public class NewsFragment extends Fragment implements ListJobAdapter.ItemListene
         });
     }
 
-    @Override
-    public void itemOnclickListener(int position) {
-        PostJob clickItemJob = data.get(position);
-        String[] readData = {clickItemJob.getpImage()
-                , clickItemJob.getpTile()
-                , clickItemJob.getpIntroductJob()
-                , clickItemJob.getpCompanyAddress()
-                , clickItemJob.getpJobTime()
-                , clickItemJob.getpCompanyEmail()
-                , clickItemJob.getpSomeCompanyInformation()
-                , clickItemJob.getpInfomationJob()
-                , clickItemJob.getpRecruitTime()
-                , clickItemJob.getpDateNow()
-        };
-        openJobExtra(readData);
-    }
-
-    private void openJobExtra(String[] data) {
-        Intent readData = new Intent(getContext(),DetailNewsApp.class);
-        readData.putExtra(Const.IMAGE_KEY,data[0]);
-        readData.putExtra(Const.TITLE_KEY,data[1]);
-        readData.putExtra(Const.INTRDUCE_JOB_KEY,data[2]);
-        readData.putExtra(Const.COMPANY_ADDRESS_KEY,data[3]);
-        readData.putExtra(Const.JOB_TIME_KEY,data[4]);
-        readData.putExtra(Const.COMPANY_EMAIL_KEY,data[5]);
-        readData.putExtra(Const.SOME_COMPANY_INFOMATION_KEY,data[6]);
-        readData.putExtra(Const.INFOMATION_JOB_KEY,data[7]);
-        readData.putExtra(Const.RECRUI_TIME_KEY,data[8]);
-        readData.putExtra(Const.DATE_NOW_KEY,data[9]);
-        startActivity(readData);
-    }
-
     private void initView() {
         rcv = getActivity().findViewById(R.id.lv_news);
 
@@ -125,7 +93,6 @@ public class NewsFragment extends Fragment implements ListJobAdapter.ItemListene
 
         data = new ArrayList<>();
         adapter = new ListJobAdapter(getContext(),data);
-        adapter.setListener(this);
         rcv.setAdapter(adapter);
 
     }

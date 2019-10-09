@@ -50,32 +50,18 @@
             android:padding="@dimen/dp_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageButton
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:id="@+id/item_saved"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_save_black_24dp"/>
-            <ImageButton
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_email_black_24dp"
-                android:layout_toRightOf="@+id/item_saved"
-                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:src="@drawable/im_account"
                 android:layout_marginRight="@dimen/dp_15"
-                android:id="@+id/item_detail_chat"/>
+                android:id="@+id/civ_my_image"/>
             <EditText
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/item_detail_chat"
+                android:layout_toRightOf="@+id/civ_my_image"
                 android:id="@+id/edt_comment"
-                android:inputType="textMultiLine"
+                android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="4"
                 android:theme="@style/LoginTextInputLayoutStyle"
                 android:layout_marginRight="@dimen/dp_10"

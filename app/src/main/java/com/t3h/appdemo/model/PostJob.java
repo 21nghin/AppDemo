@@ -17,11 +17,12 @@ public class PostJob {
     private String uImageUrl;
     private String uEmail;
     private String pLikes;
+    private String pComments;
 
     public PostJob() {
     }
 
-    public PostJob(String pId, String pTile, String pSomeCompanyInformation, String pRecruitTime, String pJobTime, String pIntroductJob, String pInfomationJob, String pImage, String pDateNow, String pCompanyEmail, String pCompanyAddress, String uid, String uName, String uImageUrl, String uEmail, String pLikes) {
+    public PostJob(String pId, String pTile, String pSomeCompanyInformation, String pRecruitTime, String pJobTime, String pIntroductJob, String pInfomationJob, String pImage, String pDateNow, String pCompanyEmail, String pCompanyAddress, String uid, String uName, String uImageUrl, String uEmail, String pLikes, String pComments) {
         this.pId = pId;
         this.pTile = pTile;
         this.pSomeCompanyInformation = pSomeCompanyInformation;
@@ -38,6 +39,7 @@ public class PostJob {
         this.uImageUrl = uImageUrl;
         this.uEmail = uEmail;
         this.pLikes = pLikes;
+        this.pComments = pComments;
     }
 
     public String getpId() {
@@ -166,5 +168,13 @@ public class PostJob {
 
     public void setpLikes(String pLikes) {
         this.pLikes = pLikes;
+    }
+
+    public String getpComments() {
+        return pComments;
+    }
+
+    public void setpComments(String pComments) {
+        this.pComments = pComments;
     }
 }
