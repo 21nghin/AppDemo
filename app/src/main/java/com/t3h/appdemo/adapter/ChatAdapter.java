@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,13 +19,16 @@ import com.bumptech.glide.Glide;
 import com.t3h.appdemo.R;
 
 import com.t3h.appdemo.intent.MessageApp;
+import com.t3h.appdemo.model.JobModel;
+import com.t3h.appdemo.model.PostJob;
 import com.t3h.appdemo.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder>{
     private Context mContext;
     private ArrayList<User> data;
     private boolean isChat;

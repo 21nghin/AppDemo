@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -69,9 +70,13 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
     private ProgressDialog progressDialog;
 
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.app_edit_user);
 
         mAuth = FirebaseAuth.getInstance();
@@ -234,8 +239,10 @@ public class EditUserApp extends AppCompatActivity implements TextWatcher, View.
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             // TODO
+                            Toast.makeText(EditUserApp.this, "update passowd successfully", Toast.LENGTH_SHORT).show();
                         } else {
                             //TODO
+                            Toast.makeText(EditUserApp.this, "update false", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

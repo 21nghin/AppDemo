@@ -3,20 +3,20 @@ package com.t3h.appdemo.notification;
 public class Data {
 
     private String user;
-    private int icon;
+    private Integer icon;
     private String body;
     private String title;
     private String sented;
 
-    public Data(String user, int icon, String body, String title, String sented) {
+    public Data() {
+    }
+
+    public Data(String user, Integer icon, String body, String title, String sented) {
         this.user = user;
         this.icon = icon;
         this.body = body;
         this.title = title;
         this.sented = sented;
-    }
-
-    public Data() {
     }
 
     public String getUser() {
@@ -27,11 +27,11 @@ public class Data {
         this.user = user;
     }
 
-    public int getIcon() {
+    public Integer getIcon() {
         return icon;
     }
 
-    public void setIcon(int icon) {
+    public void setIcon(Integer icon) {
         this.icon = icon;
     }
 

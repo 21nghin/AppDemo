@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.appcompat.widget.Toolbar
+            android:padding="@dimen/dp_5"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/chat_toolbar"
@@ -22,7 +23,7 @@
                     android:layout_width="50dp"
                     android:layout_gravity="center|left"
                     android:layout_height="match_parent"
-                    android:src="@drawable/image_view"
+                    android:src="@drawable/im_account"
                     android:id="@+id/civ_avatar_chat"/>
                 <ImageView
                     android:visibility="invisible"
@@ -57,4 +58,8 @@
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/babay"/>
     </com.google.android.material.appbar.AppBarLayout>

@@ -6,7 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,17 +30,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.t3h.appdemo.R;
-import com.t3h.appdemo.adapter.ChatAdapter;
 import com.t3h.appdemo.adapter.MessageAdapter;
 import com.t3h.appdemo.api.ApiService;
 import com.t3h.appdemo.model.Message;
 import com.t3h.appdemo.model.User;
 import com.t3h.appdemo.notification.Client;
 import com.t3h.appdemo.notification.Data;
-import com.t3h.appdemo.notification.MyResponse;
+import com.t3h.appdemo.notification.Response;
 import com.t3h.appdemo.notification.Sender;
 import com.t3h.appdemo.notification.Token;
-import com.t3h.appdemo.push_data.Const;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MessageApp extends AppCompatActivity implements View.OnClickListener, TextWatcher, View.OnKeyListener {
 
@@ -68,21 +68,71 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
     private FirebaseAuth fireAuth;
     private DatabaseReference dataRef;
 
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase fireData;
+
     private String id;
 //    private String status;
 
     private ApiService api;
     private boolean notify = false;
 
+    private String myUid, myEmail, myName, myImage;
+    private String msg;
+
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.activity_message_app);
 
         initViews();
-        api = Client.getClient("https://fcm.googleapis.com/").create(ApiService.class);
+        //TODO
+        checkUserStatus();
+        loadUserInfo();
+//        -----------------------------
         loadDataUser();
+
+        api = Client.getRetrofit("https://fcm.googleapis.com/").create(ApiService.class);
+
         setUpRecyclerViewMessage();
+    }
+
+
+    private void loadUserInfo() {
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        Query query = databaseReference.orderByChild("email").equalTo(myEmail);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    myName = "" + snapshot.child("name").getValue();
+                    myImage = "" + snapshot.child("imageUrl").getValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    private void checkUserStatus() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            myEmail = user.getEmail();
+            myUid = user.getUid();
+
+        } else {
+            startActivity(new Intent(this, MainApp.class));
+            finish();
+        }
     }
 
     private void setUpRecyclerViewMessage() {
@@ -95,7 +145,6 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
     private void loadDataUser() {
         Intent intent = getIntent();
         id = intent.getStringExtra("userid");
-//        status = intent.getStringExtra("status");
 
         fireAuth = FirebaseAuth.getInstance();
         dataRef = FirebaseDatabase.getInstance().getReference("Users").child(id);
@@ -170,7 +219,7 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
             case R.id.item_message_chat:
                 notify = true;
                 fireUser = FirebaseAuth.getInstance().getCurrentUser();
-                String msg = edtChat.getText().toString();
+                 msg = edtChat.getText().toString();
                 if (!msg.equals("")) {
                     sendMessage(fireUser.getUid(), id, msg);
                 } else {
@@ -214,13 +263,12 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
             }
         });
 
-        final String msg = message;
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
+//                User user = dataSnapshot.getValue(User.class);
                 if (notify) {
-                    sendNotification(receiver, user.getName(), msg);
+                    sendNotification(receiver, myName, msg);
                 }
                 notify = false;
             }
@@ -232,7 +280,7 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
         });
     }
 
-    private void sendNotification(String receiver, final String name, final String msg) {
+    private void sendNotification(String receiver, final String myName, final String msg) {
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
         query.addValueEventListener(new ValueEventListener() {
@@ -240,21 +288,22 @@ public class MessageApp extends AppCompatActivity implements View.OnClickListene
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(fireUser.getUid(), R.drawable.im_account, name + ": " + msg, "New message", id);
+                    Data data = new Data(fireUser.getUid(), R.mipmap.ic_launcher, myName + ": " + msg, "New message", id);
                     Sender sender = new Sender(data, token.getToken());
                     api.sendNotification(sender)
-                            .enqueue(new Callback<MyResponse>() {
+                            .enqueue(new Callback<Response>() {
                                 @Override
-                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                                    if (response.code() == 200) {
-                                        if (response.body().success != 1) {
-                                            message("Failed");
-                                        }
-                                    }
+                                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                                    Toast.makeText(MessageApp.this, "" + response.message(), Toast.LENGTH_SHORT).show();
+//                                    if (response.code() == 200) {
+//                                        if (response.body().success != 1) {
+//                                            message("Failed");
+//                                        }
+//                                    }
                                 }
 
                                 @Override
-                                public void onFailure(Call<MyResponse> call, Throwable t) {
+                                public void onFailure(Call<Response> call, Throwable t) {
 
                                 }
                             });

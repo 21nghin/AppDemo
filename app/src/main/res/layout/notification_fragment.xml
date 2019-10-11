@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <TextView
-
+        android:id="@+id/is_empty_notifi"
+        android:layout_centerInParent="true"
         android:gravity="center"
-        android:textSize="@dimen/dp_30"
-        android:text="Notification"
+        android:textSize="@dimen/sp_22"
+        android:text="There are no announcements"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/lv_notifi"
+        tools:listitem="@layout/item_notification"/>
+</RelativeLayout>

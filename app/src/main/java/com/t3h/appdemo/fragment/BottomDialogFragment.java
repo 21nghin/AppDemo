@@ -141,9 +141,6 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.item_info:
-                startActivity(new Intent(getContext(), CVApp.class));
-                break;
             case R.id.item_profile:
                 startActivity(new Intent(getContext(), UserApp.class));
                 break;
@@ -153,10 +150,6 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements N
             case R.id.item_chat:
                 startActivity(new Intent(getContext(), ChatApp.class));
                 break;
-            case R.id.id_nav03:
-
-                break;
-
         }
         return false;
     }

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 
 import android.content.Intent;
@@ -58,7 +59,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final String TAG = "CreatNews";
     private Spinner spinnerCheckRecruitment;
     private Spinner spinnerCheckTime;
     private EditText edtTitle;
@@ -89,9 +89,13 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
 
     private ProgressDialog progressDialog;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.fragment_creat_news);
 
         initViews();
@@ -251,6 +255,10 @@ public class CreatNews extends AppCompatActivity implements AdapterView.OnItemSe
         final String jobTime = spinnerCheckTime.getSelectedItem().toString();
         final String dateNow = DateFormat.getDateInstance().format(calendar.getTime());
 
+        if (tile.isEmpty()){
+            Toast.makeText(this, "Title is empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (introduceJob.isEmpty()) {
             textIntroduceJob.setError("enter information job!");
             return;

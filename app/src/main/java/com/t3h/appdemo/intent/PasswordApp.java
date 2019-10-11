@@ -3,7 +3,9 @@ package com.t3h.appdemo.intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,11 +31,14 @@ public class PasswordApp extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth mAuth;
     private TextView tvLogin;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_password);
-
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         mAuth = FirebaseAuth.getInstance();
 
         intView();

@@ -22,17 +22,19 @@
             <ImageView
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_person_black_24dp"
+                android:layout_width="@dimen/dp_30"
+                android:tint="@color/colorTim"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/email_24"
                 android:layout_marginRight="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_30"/>
             <ImageView
+                android:tint="@color/colorTim"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mail_36"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/new_post_24"
                 android:layout_marginRight="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_108"/>
         </RelativeLayout>

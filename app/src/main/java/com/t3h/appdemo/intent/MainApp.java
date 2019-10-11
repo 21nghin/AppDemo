@@ -8,28 +8,22 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.t3h.appdemo.R;
 import com.t3h.appdemo.adapter.AppAdapter;
 import com.t3h.appdemo.adapter.ListJobAdapter;
@@ -37,13 +31,7 @@ import com.t3h.appdemo.fragment.BottomDialogFragment;
 import com.t3h.appdemo.fragment.NewsFragment;
 import com.t3h.appdemo.fragment.NotificationFragment;
 import com.t3h.appdemo.fragment.SavedFragment;
-import com.t3h.appdemo.model.JobModel;
-import com.t3h.appdemo.model.PostJob;
-import com.t3h.appdemo.push_data.Const;
 
-import java.util.ArrayList;
-
-import java.util.List;
 
 public class MainApp extends AppCompatActivity {
 
@@ -51,10 +39,6 @@ public class MainApp extends AppCompatActivity {
     private FloatingActionButton fabAdd;
     private Toolbar toolChat;
 
-    private ValueEventListener mDBListener;
-    private DatabaseReference databaseReference;
-    private ArrayList<PostJob> data;
-    private RecyclerView rcv;
     private ListJobAdapter adapter;
 
     private TabLayout tabApp;
@@ -84,16 +68,18 @@ public class MainApp extends AppCompatActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (appBar.getFabAlignmentMode() == BottomAppBar.FAB_ALIGNMENT_MODE_END) {
-                    appBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                    if (view.callOnClick()){
-                        startActivity(new Intent(MainApp.this,CreatNews.class));
-                    }
 
-                } else {
-                    appBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-                    return;
-                }
+                startActivity(new Intent(MainApp.this,CreatNews.class));
+//                if (appBar.getFabAlignmentMode() == BottomAppBar.FAB_ALIGNMENT_MODE_END) {
+//                    appBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+//                    if (view.callOnClick()){
+//
+//                    }
+//
+//                } else {
+//                    appBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
+//                    return;
+//                }
             }
         });
 
@@ -130,11 +116,14 @@ public class MainApp extends AppCompatActivity {
         tabApp.setupWithViewPager(pagerApp);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_app_bar, menu);
         final MenuItem searchItem = menu.findItem(R.id.id_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setBackgroundResource(R.drawable.shape_search);
+//        searchView.setQueryHint(Html.fromHtml("<font color = #000000>" + getResources().getString(R.string.hintSearchMess) + "</font>"));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -144,7 +133,10 @@ public class MainApp extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                    if (adapter!=null){
 
+                        adapter.getFilter().filter(newText);
+                    }
                 return false;
             }
         });

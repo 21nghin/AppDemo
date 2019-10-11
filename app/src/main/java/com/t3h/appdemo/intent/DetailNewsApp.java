@@ -1,5 +1,6 @@
 package com.t3h.appdemo.intent;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -87,9 +88,13 @@ public class DetailNewsApp extends AppCompatActivity implements View.OnClickList
 
     private String myUid, myEmail, myName, myImage, postId;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.detail);
 
         initView();

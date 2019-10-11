@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,7 +47,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatApp extends AppCompatActivity implements View.OnClickListener {
 
     private CircleImageView civAvatarChat;
-//    private TextView tvNotify;
+    //    private TextView tvNotify;
     private RecyclerView lvChatHorizontal;
     private RecyclerView lvHaveMessage;
     private EditText edtSearchChat;
@@ -54,6 +57,8 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
     private DatabaseReference mDataRef;
     private ValueEventListener mDBListener;
 
+    private String mUID;
+
     private List<ChatList> chatList;
 
     private ArrayList<User> mData;
@@ -62,9 +67,13 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
     //TODO
     private Chat2Adapter adapter2;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.app_chat);
 
         initViews();
@@ -73,6 +82,7 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
         getData();
         getDataLvChatHorizontal();
         setUPRecyclerViewHaveMessage();
+        checkUserStatus();
         updateToken(FirebaseInstanceId.getInstance().getToken());
     }
 
@@ -152,10 +162,10 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    private void updateToken(String token){
-        DatabaseReference dataRefToken = FirebaseDatabase.getInstance().getReference("Tokens");
+    private void updateToken(String token) {
+        DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("Tokens");
         Token tk = new Token(token);
-        dataRefToken.child(mUser.getUid()).setValue(tk);
+        dataRef.child(mUID).setValue(tk);
     }
 
 
@@ -253,6 +263,7 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
 //        tvNotify = findViewById(R.id.tv_notify);
 //        imNotification = findViewById(R.id.im_notification);
         lvHaveMessage = findViewById(R.id.lv_have_message);
+        lvHaveMessage.setNestedScrollingEnabled(false);
         lvChatHorizontal = findViewById(R.id.lv_chat_horizontal);
 
         civAvatarChat.setOnClickListener(this);
@@ -279,6 +290,7 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         status(getString(R.string.user_online));
+        checkUserStatus();
     }
 
     @Override
@@ -290,5 +302,20 @@ public class ChatApp extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    private void checkUserStatus() {
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mUser != null) {
+            mUID = mUser.getUid();
+
+            SharedPreferences sp = getSharedPreferences("SP_USER",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("Current_USERID",mUID);
+            editor.apply();
+        } else {
+            startActivity(new Intent(ChatApp.this, MainApp.class));
+            finish();
+        }
     }
 }

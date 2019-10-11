@@ -5,7 +5,7 @@
         android:id="@+id/id_search"
         android:title="Search"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always|collapseActionView"
+        app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
     <item
         android:title="Message"

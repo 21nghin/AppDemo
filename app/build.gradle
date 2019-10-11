@@ -32,8 +32,8 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:+'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
 
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'com.google.firebase:firebase-auth:19.0.0'

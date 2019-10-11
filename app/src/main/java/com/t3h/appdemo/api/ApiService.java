@@ -1,6 +1,6 @@
 package com.t3h.appdemo.api;
 
-import com.t3h.appdemo.notification.MyResponse;
+import com.t3h.appdemo.notification.Response;
 import com.t3h.appdemo.notification.Sender;
 
 import retrofit2.Call;
@@ -17,5 +17,5 @@ public interface ApiService {
                     }
             )
     @POST("fcm/send")
-    Call<MyResponse> sendNotification(@Body Sender body);
+    Call<Response> sendNotification(@Body Sender body);
 }

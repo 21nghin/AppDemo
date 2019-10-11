@@ -3,10 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorTim</item>
+        <item name="colorPrimary">@color/colorLoading</item>
         <item name="colorPrimaryDark">@color/colorLoading</item>
         <item name="colorAccent">@color/colorLoading</item>
-<!--        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
+<!--        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>-->
+<!--        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>-->
+<!--        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>-->
     </style>
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="colorAccent">#545D91</item>

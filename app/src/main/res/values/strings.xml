@@ -118,4 +118,5 @@
     <string name="edt_chat_message">Enter the message...</string>
     <string name="user_online">online</string>
     <string name="user_offline">offline</string>
+    <string name="hintSearchMess">search cccccc</string>
 </resources>

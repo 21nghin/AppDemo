@@ -7,7 +7,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-public class MyFirebaseIdService extends FirebaseInstanceIdService {
+public class FirebaseService extends FirebaseInstanceIdService {
 
     @Override
     public void onTokenRefresh() {
@@ -20,9 +20,9 @@ public class MyFirebaseIdService extends FirebaseInstanceIdService {
     }
 
     private void updateToken(String refreshToken) {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("Tokens");
         Token token = new Token(refreshToken);
-        dataRef.child(firebaseUser.getUid()).setValue(token);
+        dataRef.child(fireUser.getUid()).setValue(token);
     }
 }

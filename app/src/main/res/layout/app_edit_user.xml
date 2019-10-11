@@ -17,14 +17,29 @@
         android:background="@color/colorXam"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/id_edit_toolbar"/>
+        android:layout_below="@+id/id_edit_toolbar"/>
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_margin="@dimen/dp_20"
-        android:layout_below="@id/id_edit_toolbar"
+        android:layout_below="@+id/id_edit_toolbar"
         android:layout_width="@dimen/dp_130"
         android:layout_height="@dimen/dp_130"
-        android:src="@drawable/ic_account_circle"
+        android:src="@drawable/im_account"
         android:id="@+id/cim_avatar"/>
+    <ImageView
+        android:layout_alignTop="@+id/cim_avatar"
+        android:layout_alignRight="@+id/cim_avatar"
+        android:layout_width="@dimen/dp_35"
+        android:layout_height="@dimen/dp_35"
+        android:background="@drawable/shape_offline"/>
+    <ImageView
+        android:layout_marginRight="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_6"
+        android:tint="@color/colorXam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera_36dp"
+        android:layout_alignTop="@+id/cim_avatar"
+        android:layout_alignRight="@+id/cim_avatar"/>
     <LinearLayout
         android:orientation="horizontal"
         android:padding="@dimen/dp_10"
@@ -85,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text_user_name">
                 <EditText
-                    android:fontFamily="@font/sofiapro_light"
+                    android:fontFamily="sans-serif-light"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/edt_user_name"
@@ -101,7 +116,7 @@
                 android:id="@+id/text_user_email">
                 <EditText
                     android:enabled="false"
-                    android:fontFamily="@font/sofiapro_light"
+                    android:fontFamily="sans-serif-light"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/edt_user_email"
@@ -118,7 +133,7 @@
                 android:id="@+id/text_user_change_password">
                 <EditText
                     android:inputType="textVisiblePassword"
-                    android:fontFamily="@font/sofiapro_light"
+                    android:fontFamily="sans-serif-light"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/edt_user_change_password"
@@ -135,7 +150,7 @@
                 android:id="@+id/text_user_retype_pass">
                 <EditText
                     android:inputType="textVisiblePassword"
-                    android:fontFamily="@font/sofiapro_light"
+                    android:fontFamily="sans-serif-light"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/edt_user_retype_password"

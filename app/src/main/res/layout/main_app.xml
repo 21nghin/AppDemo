@@ -32,7 +32,6 @@
             app:tabSelectedTextColor="@color/textMenuColor"
             app:tabTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.viewpager.widget.ViewPager
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/id_viewpager"
